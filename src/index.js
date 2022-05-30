@@ -1,30 +1,24 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { render } from "react-dom";
-
-import LoginPage from "./pages/LoginPage";
-import SignupPage from "./pages/SignupPage";
 import ProfilePage from "./pages/ProfilePage";
 import StoryPage from "./pages/StoryPage";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import ExplorationPage from "./pages/GalleryPage";
-
+import GalleryPage from "./pages/GalleryPage";
+import NewPost from "./pages/NewPost";
 const rootElement = document.getElementById("root");
 render(
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<App />}>
-        <Route index element={<ExplorationPage />} />
+        <Route index element={<GalleryPage />} />
         <Route path="profile" element={<ProfilePage />} />
         <Route path="story/:storyId" element={<StoryPage />} />
+        <Route path="newpost" element={<NewPost />} />
       </Route>
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/signup" element={<SignupPage />} />
-
       <Route
         path="*"
         element={

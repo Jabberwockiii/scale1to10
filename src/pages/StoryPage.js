@@ -1,7 +1,6 @@
 import React from "react";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import { CardHeader } from "@mui/material";
 import { imageData } from "../database/ImageData";
 import { useParams } from "react-router-dom";
 import Card from "@mui/material/Card";
@@ -11,9 +10,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import IconButton from "@mui/material/IconButton";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import HoverRating from "./HoverRating";
 const StoryPage = () => {
   const { storyId } = useParams();

@@ -1,7 +1,5 @@
 import React from "react";
-import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import { imageData } from "../database/ImageData";
 import ImageList from "@mui/material/ImageList";
@@ -9,10 +7,9 @@ import ImageListItem from "@mui/material/ImageListItem";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
 import IconButton from "@mui/material/IconButton";
 import InfoIcon from "@mui/icons-material/Info";
-import { borderRadius, spacing } from "@mui/system";
 import { Link, Outlet } from "react-router-dom";
 
-const ExplorationPage = () => {
+const GalleryPage = () => {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={1}>
@@ -59,4 +56,4 @@ const ExplorationPage = () => {
   );
 };
 
-export default ExplorationPage;
+export default GalleryPage;

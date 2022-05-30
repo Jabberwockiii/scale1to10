@@ -15,7 +15,8 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
-import Link from '@mui/material/Link';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
@@ -56,10 +57,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function PrimarySearchAppBar() {
+export default function NavBar({signOut}) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-
+  
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -98,9 +99,7 @@ export default function PrimarySearchAppBar() {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}><Link href="/login" style = {{textDecoration: 'none', display : 'block', color : 'black'}}>
-                    Login
-                  </Link></MenuItem>
+      <MenuItem onClick= {signOut}>Sign Out</MenuItem>
     </Menu>
   );
 
@@ -176,7 +175,7 @@ export default function PrimarySearchAppBar() {
             component="div"
             sx={{ display: { xs: "none", sm: "block" } }}
           >
-            MUI
+            RateMyFriends
           </Typography>
           <Search>
             <SearchIconWrapper>
@@ -189,6 +188,13 @@ export default function PrimarySearchAppBar() {
           </Search>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
+            <IconButton
+              size="large"
+              aria-label="add a new post"
+              color="inherit"
+              >
+              <AddCircleIcon/>
+            </IconButton>
             <IconButton
               size="large"
               aria-label="show 4 new mails"
