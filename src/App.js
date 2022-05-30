@@ -3,9 +3,9 @@ import { Outlet } from "react-router-dom";
 import "./App.css";
 import NavBar from "./components/NavBar";
 //aws 
-import { Authenticator } from '@aws-amplify/ui-react';
+import { Authenticator,  } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
-import Amplify from 'aws-amplify';
+import Amplify, {API} from 'aws-amplify';
 import awsconfig from './aws-exports';
 Amplify.configure(awsconfig);
 
