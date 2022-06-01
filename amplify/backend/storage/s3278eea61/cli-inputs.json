@@ -3,14 +3,14 @@
   "policyUUID": "278eea61",
   "bucketName": "scale1to10223b7f5797fd44bc9c60facc1a8348a6",
   "storageAccess": "auth",
-  "guestAccess": [],
-  "authAccess": [
-    "CREATE_AND_UPDATE"
+  "guestAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
   ],
-  "triggerFunction": "NONE",
-  "groupAccess": {
-    "testUsers": [
-      "CREATE_AND_UPDATE"
-    ]
-  }
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ]
 }

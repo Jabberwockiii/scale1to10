@@ -25,7 +25,8 @@
         }
       },
       "auth": {
-        "scale1to104f125c69": {}
+        "scale1to104f125c69": {},
+        "userPoolGroups": {}
       }
     }
   }

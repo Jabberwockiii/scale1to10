@@ -16,6 +16,7 @@ import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { Link } from "react-router-dom";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -98,7 +99,7 @@ export default function NavBar({signOut}) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <Link to= "/profile" style={{ textDecoration: 'none', color : "#000" }} ><MenuItem onClick = {handleMenuClose}>Profile</MenuItem></Link>
       <MenuItem onClick= {signOut}>Sign Out</MenuItem>
     </Menu>
   );
@@ -167,7 +168,7 @@ export default function NavBar({signOut}) {
             aria-label="open drawer"
             sx={{ mr: 2 }}
           >
-            <MenuIcon />
+            <Link to ="/"><MenuIcon /></Link>
           </IconButton>
           <Typography
             variant="h6"

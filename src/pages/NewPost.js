@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Box, Button } from '@material-ui/core';
 import { Storage } from 'aws-amplify';
 import {API} from 'aws-amplify';
+import { withAuthenticator } from '@aws-amplify/ui-react';
 //import authentication from './authentication';
 
 async function pushImgToS3(file, filename){
@@ -17,7 +18,7 @@ async function pushImgToS3(file, filename){
         .catch(err => console.log(err));
    }
    console.log("OK!");
-export default class NewPost extends Component {
+class NewPost extends Component {
     // render a button to upload a new post by using insert
     //constructor 
     //handleAdd
@@ -50,3 +51,4 @@ export default class NewPost extends Component {
     }
 
 }
+export default withAuthenticator(NewPost);

@@ -1,16 +1,16 @@
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
+// src/App.js
+import React, { useState, useEffect } from 'react';
+import { Storage } from 'aws-amplify'
+import { withAuthenticator} from '@aws-amplify/ui-react'
+import { v4 as uuid } from 'uuid';
 import Button from '@mui/material/Button';
-import CameraIcon from '@mui/icons-material/PhotoCamera';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
@@ -28,102 +28,132 @@ function Copyright() {
     </Typography>
   );
 }
-
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
+function Album() {
+  //image hook
+  const [images, setImages] = useState([]);
+  useEffect(() => {
+    fetchImages()
+  }, [])
+  async function fetchImages() {
+      // Fetch list of images from S3
+    Storage.configure(
+      {
+        level: "private",
+      }
+    )
+    let s3images = await Storage.list('')
+      // Get presigned URL for S3 images to display images in app
+    s3images = await Promise.all(s3images.map(async image => {
+      const signedImage = await Storage.get(image.key)
+      return signedImage
+    }))
+    setImages(s3images)
+  }
+  function onChange(e) {
+    if (!e.target.files[0]) return
+    const file = e.target.files[0];
+      // upload the image then fetch and rerender images
+    Storage.put(uuid(), file).then (() => fetchImages())
+  }  
 const theme = createTheme();
 
-export default function Album() {
-  return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <main>
-        {/* Hero unit */}
-        <Box
-          sx={{
-            bgcolor: 'background.paper',
-            pt: 8,
-            pb: 6,
-          }}
-        >
-          <Container maxWidth="sm">
-            <Typography
-              component="h1"
-              variant="h2"
-              align="center"
-              color="text.primary"
-              gutterBottom
-            >
-              Album layout
-            </Typography>
-            <Typography variant="h5" align="center" color="text.secondary" paragraph>
-              Something short and leading about the collection below—its contents,
-              the creator, etc. Make it short and sweet, but not too short so folks
-              don&apos;t simply skip over it entirely.
-            </Typography>
-            <Stack
-              sx={{ pt: 4 }}
-              direction="row"
-              spacing={2}
-              justifyContent="center"
-            >
-              <Button variant="contained">Main call to action</Button>
-              <Button variant="outlined">Secondary action</Button>
-            </Stack>
-          </Container>
-        </Box>
-        <Container sx={{ py: 8 }} maxWidth="md">
-          {/* End hero unit */}
-          <Grid container spacing={4}>
-            {cards.map((card) => (
-              <Grid item key={card} xs={12} sm={6} md={4}>
-                <Card
-                  sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
-                >
-                  <CardMedia
-                    component="img"
-                    sx={{
-                      // 16:9
-                      pt: '56.25%',
-                    }}
-                    image="https://source.unsplash.com/random"
-                    alt="random"
-                  />
-                  <CardContent sx={{ flexGrow: 1 }}>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      Heading
-                    </Typography>
-                    <Typography>
-                      This is a media card. You can use this section to describe the
-                      content.
-                    </Typography>
-                  </CardContent>
+//A react component that displays a list of images
+//it fetches the images from S3 and displays them
+//it also allows the user to upload new images
+//it uses the react hooks to manage the state
+class PhotoList extends React.Component{
+    render(){
+      return(
+        <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <main>
+          {/* Hero unit */}
+          <Box
+            sx={{
+              bgcolor: 'background.paper',
+              pt: 8,
+              pb: 6,
+            }}
+          >
+            <Container maxWidth="sm">
+              <Typography
+                component="h1"
+                variant="h2"
+                align="center"
+                color="text.primary"
+                gutterBottom
+              >
+                Album layout
+              </Typography>
+              <Typography variant="h5" align="center" color="text.secondary" paragraph>
+                Something short and leading about the collection below—its contents,
+                the creator, etc. Make it short and sweet, but not too short so folks
+                don&apos;t simply skip over it entirely.
+              </Typography>
+              <Stack
+                sx={{ pt: 4 }}
+                direction="row"
+                spacing={2}
+                justifyContent="center"
+              >
+                <Button variant="contained"><input
+                type="file"
+                accept='image/png'
+                onChange={onChange}
+                />Upload a Photo to rate</Button>
+                <Button variant="outlined">Secondary action</Button>
+              </Stack>
+            </Container>
+          </Box>
+          <Container sx={{ py: 8 }} maxWidth="md">
+            {/* End hero unit */}
+            <Grid container spacing={4}>
+              {images.map((image) => (
+                <Grid item key={image} xs={12} sm={6} md={4}>
+                  <Card
+                    sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
+                  >
+                    <CardMedia
+                      component="img"
+                      sx={{
+                        // 16:9
+                        pt: '56.25%',
+                      }}
+                      image={image}
+                      alt="random"
+                    />
+                  </Card>
                   <CardActions>
-                    <Button size="small">View</Button>
-                    <Button size="small">Edit</Button>
+                      <Button size="small">View</Button>
+                      <Button size="small">Edit</Button>
                   </CardActions>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-        </Container>
-      </main>
-      {/* Footer */}
-      <Box sx={{ bgcolor: 'background.paper', p: 6 }} component="footer">
-        <Typography variant="h6" align="center" gutterBottom>
-          Footer
-        </Typography>
-        <Typography
-          variant="subtitle1"
-          align="center"
-          color="text.secondary"
-          component="p"
-        >
-          Something here to give the footer a purpose!
-        </Typography>
-        <Copyright />
-      </Box>
-      {/* End footer */}
-    </ThemeProvider>
-  );
+                </Grid>
+              ))}
+            </Grid>
+          </Container>
+        </main>
+        {/* Footer */}
+        <Box sx={{ bgcolor: 'background.paper', p: 6 }} component="footer">
+          <Typography variant="h6" align="center" gutterBottom>
+            Footer
+          </Typography>
+          <Typography
+            variant="subtitle1"
+            align="center"
+            color="text.secondary"
+            component="p"
+          >
+            Something here to give the footer a purpose!
+          </Typography>
+          <Copyright />
+        </Box>
+        {/* End footer */}
+      </ThemeProvider>
+      );
+    }
 }
+
+  //final return 
+  return (<PhotoList />);
+}
+export default withAuthenticator(Album);

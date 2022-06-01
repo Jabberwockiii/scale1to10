@@ -9,6 +9,7 @@ import StoryPage from "./pages/StoryPage";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import GalleryPage from "./pages/GalleryPage";
 import NewPost from "./pages/NewPost";
+import NewPost2 from"./pages/ProfilePage";
 const rootElement = document.getElementById("root");
 render(
   <BrowserRouter>
@@ -18,6 +19,7 @@ render(
         <Route path="profile" element={<ProfilePage />} />
         <Route path="story/:storyId" element={<StoryPage />} />
         <Route path="newpost" element={<NewPost />} />
+        <Route path="newpost2" element={<NewPost2 />} />
       </Route>
       <Route
         path="*"

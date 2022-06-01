@@ -77,22 +77,7 @@
     "s3278eea61": {
       "service": "S3",
       "providerPlugin": "awscloudformation",
-      "dependsOn": [
-        {
-          "category": "auth",
-          "resourceName": "scale1to104f125c69",
-          "attributes": [
-            "UserPoolId"
-          ]
-        },
-        {
-          "category": "auth",
-          "resourceName": "userPoolGroups",
-          "attributes": [
-            "testUsersGroupRole"
-          ]
-        }
-      ]
+      "dependsOn": []
     }
   }
 }

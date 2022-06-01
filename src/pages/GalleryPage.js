@@ -8,7 +8,6 @@ import ImageListItemBar from "@mui/material/ImageListItemBar";
 import IconButton from "@mui/material/IconButton";
 import InfoIcon from "@mui/icons-material/Info";
 import { Link, Outlet } from "react-router-dom";
-
 const GalleryPage = () => {
   return (
     <Box sx={{ flexGrow: 1 }}>
