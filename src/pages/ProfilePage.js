@@ -29,7 +29,7 @@ function Copyright() {
   );
 }
 function Album() {
-  //image hook
+  //images hook
   const [images, setImages] = useState([]);
   useEffect(() => {
     fetchImages()
@@ -38,7 +38,7 @@ function Album() {
       // Fetch list of images from S3
     Storage.configure(
       {
-        level: "private",
+        level: "protected",
       }
     )
     let s3images = await Storage.list('')
@@ -51,8 +51,11 @@ function Album() {
   }
   function onChange(e) {
     if (!e.target.files[0]) return
+    Storage.configure({level: "protected",})
     const file = e.target.files[0];
       // upload the image then fetch and rerender images
+    Storage.put(uuid(), file).then (() => fetchImages())
+    Storage.configure({level: "public",})
     Storage.put(uuid(), file).then (() => fetchImages())
   }  
 const theme = createTheme();
@@ -83,12 +86,11 @@ class PhotoList extends React.Component{
                 color="text.primary"
                 gutterBottom
               >
-                Album layout
+                Share a Picture to find something new about yourself
               </Typography>
               <Typography variant="h5" align="center" color="text.secondary" paragraph>
-                Something short and leading about the collection below—its contents,
-                the creator, etc. Make it short and sweet, but not too short so folks
-                don&apos;t simply skip over it entirely.
+                You are anxious about your appearance but we can help, get some feedback from your friends.
+                And see how attractive you are 
               </Typography>
               <Stack
                 sx={{ pt: 4 }}
@@ -152,7 +154,6 @@ class PhotoList extends React.Component{
       );
     }
 }
-
   //final return 
   return (<PhotoList />);
 }
