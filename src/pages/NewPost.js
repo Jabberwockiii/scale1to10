@@ -1,54 +1,77 @@
-//hello world 
-import React, { Component } from 'react';
-import { Box, Button } from '@material-ui/core';
-import { Storage } from 'aws-amplify';
-import {API} from 'aws-amplify';
-import { withAuthenticator } from '@aws-amplify/ui-react';
-//import authentication from './authentication';
+import * as React from 'react';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import ListItemText from '@mui/material/ListItemText';
+import ListItem from '@mui/material/ListItem';
+import List from '@mui/material/List';
+import Divider from '@mui/material/Divider';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import CloseIcon from '@mui/icons-material/Close';
+import Slide from '@mui/material/Slide';
+import { TransitionProps } from '@mui/material/transitions';
 
-async function pushImgToS3(file, filename){
-    //console 
-    console.log("pushImgToS3");
-    if (file === null) return
-    await Storage.put(filename, file, {
-        level: 'protected',
-        contentType: 'image/*'
-    })
-        .then(result => console.log(result.key))
-        .catch(err => console.log(err));
-   }
-   console.log("OK!");
-class NewPost extends Component {
-    // render a button to upload a new post by using insert
-    //constructor 
-    //handleAdd
-    handleAdd = async (event) => {
-        //indicate it happens by console.log
-        console.log("handleAdd")
-        event.preventDefault();
-        const file = event.target.files[0];
-        //upload the file to S3
-        pushImgToS3(file, file.name);
-    }
-    render() {
-        // render a button to upload a new post by using insert
-        return( 
-            <Box>
-            <input
-                accept="image/*"
-                id="button-add-picture"
-                multiple
-                type="file"
-                onChange={this.handleAdd}
-            />
-            <label htmlFor="button-add-picture">
-            </label>
-            <Button variant="contained" color="primary" onClick={this.handleAdd}>
-                Add Post to Database and upload to S3
+const Transition = React.forwardRef(function Transition(
+  props: TransitionProps & {
+    children: React.ReactElement;
+  },
+  ref: React.Ref<unknown>,
+) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
+export default function FullScreenDialog() {
+  const [open, setOpen] = React.useState(false);
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+  return (
+    <div>
+      <Button variant="outlined" onClick={handleClickOpen}>
+        Open full-screen dialog
+      </Button>
+      <Dialog
+        fullScreen
+        open={open}
+        onClose={handleClose}
+        TransitionComponent={Transition}
+      >
+        <AppBar sx={{ position: 'relative' }}>
+          <Toolbar>
+            <IconButton
+              edge="start"
+              color="inherit"
+              onClick={handleClose}
+              aria-label="close"
+            >
+              <CloseIcon />
+            </IconButton>
+            <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+              Sound
+            </Typography>
+            <Button autoFocus color="inherit" onClick={handleClose}>
+              save
             </Button>
-        </Box>
-        )
-    }
-
+          </Toolbar>
+        </AppBar>
+        <List>
+          <ListItem button>
+            <ListItemText primary="Phone ringtone" secondary="Titania" />
+          </ListItem>
+          <Divider />
+          <ListItem button>
+            <ListItemText
+              primary="Default notification ringtone"
+              secondary="Tethys"
+            />
+          </ListItem>
+        </List>
+      </Dialog>
+    </div>
+  );
 }
-export default withAuthenticator(NewPost);

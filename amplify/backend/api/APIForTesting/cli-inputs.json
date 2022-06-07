@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "serviceConfiguration": {
+    "apiName": "APIForTesting",
+    "serviceName": "AppSync",
+    "gqlSchemaPath": "/home/jacob/rateMyFriend/scale1to10/amplify/backend/api/APIForTesting/schema.graphql",
+    "defaultAuthType": {
+      "mode": "AMAZON_COGNITO_USER_POOLS",
+      "cognitoUserPoolId": "authscale1to104f125c69"
+    },
+    "conflictResolution": {
+      "defaultResolutionStrategy": {
+        "type": "AUTOMERGE"
+      }
+    },
+    "additionalAuthTypes": [
+      {
+        "mode": "API_KEY",
+        "expirationTime": 100,
+        "apiKeyExpirationDate": "2022-09-14T22:19:42.853Z",
+        "keyDescription": "public-key"
+      }
+    ]
+  }
+}

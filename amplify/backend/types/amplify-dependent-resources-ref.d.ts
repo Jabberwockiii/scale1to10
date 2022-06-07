@@ -12,6 +12,11 @@ export type AmplifyDependentResourcesAttributes = {
             "RootUrl": "string",
             "ApiName": "string",
             "ApiId": "string"
+        },
+        "APIForTesting": {
+            "GraphQLAPIKeyOutput": "string",
+            "GraphQLAPIIdOutput": "string",
+            "GraphQLAPIEndpointOutput": "string"
         }
     },
     "auth": {

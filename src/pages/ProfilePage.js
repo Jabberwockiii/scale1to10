@@ -15,6 +15,23 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { API } from 'aws-amplify';
+import * as queries from '../graphql/queries';
+import * as mutations from '../graphql/mutations';
+import * as subscriptions from '../graphql/subscriptions';
+import { graphqlOperation } from 'aws-amplify';
+
+import CloseIcon from '@mui/icons-material/Close';
+import Slide from '@mui/material/Slide';
+import { TransitionProps } from '@mui/material/transitions';
+import Dialog from '@mui/material/Dialog';
+import ListItemText from '@mui/material/ListItemText';
+import ListItem from '@mui/material/ListItem';
+import List from '@mui/material/List';
+import Divider from '@mui/material/Divider';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
 
 function Copyright() {
   return (
@@ -49,28 +66,47 @@ function Album() {
     }))
     setImages(s3images)
   }
+  function generatePopWindow(e){
+
+  }
   function onChange(e) {
     if (!e.target.files[0]) return
     Storage.configure({level: "protected",})
     const file = e.target.files[0];
       // upload the image then fetch and rerender images
-    Storage.put(uuid(), file).then (() => fetchImages())
+    const photo_id = uuid()
+    Storage.put(photo_id, file).then (() => fetchImages())
     Storage.configure({level: "public",})
-    Storage.put(uuid(), file).then (() => fetchImages())
+    Storage.put(photo_id, file).then (() => fetchImages())
+    // two photos were stored one in public and one in protected
+    // Use API to create a post with the photo_id
+    API.graphql(graphqlOperation(mutations.createPost, {input: {images : photo_id + '.png'}}))
   }  
 const theme = createTheme();
 
-//A react component that displays a list of images
-//it fetches the images from S3 and displays them
-//it also allows the user to upload new images
-//it uses the react hooks to manage the state
+const Transition = React.forwardRef(function Transition(
+  props: TransitionProps & {
+    children: React.ReactElement;
+  },
+  ref: React.Ref<unknown>,
+) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
+const [open, setOpen] = React.useState(false);
+const handleClickOpen = () => {
+  setOpen(true);
+};
+const handleClose = () => {
+  setOpen(false);
+};
+
 class PhotoList extends React.Component{
     render(){
       return(
         <ThemeProvider theme={theme}>
         <CssBaseline />
         <main>
-          {/* Hero unit */}
           <Box
             sx={{
               bgcolor: 'background.paper',
@@ -103,7 +139,49 @@ class PhotoList extends React.Component{
                 accept='image/png'
                 onChange={onChange}
                 />Upload a Photo to rate</Button>
-                <Button variant="outlined">Secondary action</Button>
+                {/*some miracle here*/}
+                <div>
+                <Button variant="outlined" onClick={handleClickOpen}>
+                  Open full-screen dialog
+                </Button>
+                <Dialog
+                  fullScreen
+                  open={open}
+                  onClose={handleClose}
+                  TransitionComponent={Transition}
+                >
+                  <AppBar sx={{ position: 'relative' }}>
+                    <Toolbar>
+                      <IconButton
+                        edge="start"
+                        color="inherit"
+                        onClick={handleClose}
+                        aria-label="close"
+                      >
+                        <CloseIcon />
+                      </IconButton>
+                      <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+                        Sound
+                      </Typography>
+                      <Button autoFocus color="inherit" onClick={handleClose}>
+                        save
+                      </Button>
+                    </Toolbar>
+                  </AppBar>
+                  <List>
+                    <ListItem button>
+                      <ListItemText primary="Phone ringtone" secondary="Titania" />
+                    </ListItem>
+                    <Divider />
+                    <ListItem button>
+                      <ListItemText
+                        primary="Default notification ringtone"
+                        secondary="Tethys"
+                      />
+                    </ListItem>
+                  </List>
+                </Dialog>
+                </div>
               </Stack>
             </Container>
           </Box>
