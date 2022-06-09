@@ -47,7 +47,7 @@ function Copyright() {
     </Typography>
   );
 }
-function Album() {
+function Album(){
   //images hook
   const [images, setImages] = useState([]);
   const [currentImages, setCurrentImages] = useState([]);
@@ -70,7 +70,7 @@ function Album() {
     setImages(s3images)
   }
   function upload(e) {
-    if (!e.target.files[0]) return
+    if (!e.target.files) return
     Storage.configure({level: "protected",})
     const file = e.target.files[0];
       // upload the image then fetch and rerender images
@@ -101,12 +101,79 @@ const Transition = React.forwardRef(function Transition(
 const [open, setOpen] = React.useState(false);
 const handleClickOpen = (e) => {
   setOpen(true);
-  const file = e.target.files[0]
   upload(e);
 };
 const handleClose = () => {
   setOpen(false);
 };
+const DialogBox = (
+  <div>
+  <Dialog
+    fullScreen
+    open={open}
+    onClose={handleClose}
+    TransitionComponent={Transition}
+  >
+    <AppBar sx={{ position: 'relative' }}>
+      <Toolbar>
+        <IconButton
+          edge="start"
+          color="inherit"
+          onClick={handleClose}
+          aria-label="close"
+        >
+          <CloseIcon />
+        </IconButton>
+        <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+          Create Your Post
+        </Typography>
+        <Button autoFocus color="inherit" onClick={handleClose}>
+          Create
+        </Button>
+      </Toolbar>
+    </AppBar>
+    <Box sx={{ p: 3 }}>
+      <Typography variant="h6" gutterBottom>
+        Add a title
+      </Typography>
+      <TextField
+        defaultValue="Default Value"
+        id="standard-basic"
+        label="Title"
+        fullWidth
+      />
+      <Typography variant="h6" gutterBottom>
+        Add a description
+      </Typography>
+      <TextField
+        defaultValue="Default Value"
+        id="standard-basic"
+        label="Description"
+        fullWidth
+      />
+      <Box sx={{ mt: 3 }}>
+        <Typography variant="h6" gutterBottom>
+          Add a photo
+        </Typography>
+        <input
+          type="file"
+          accept='image/png'
+          onChange={showImage}
+        />
+        {/** render the uploaded image with flex size*/}
+        <img src={currentImages} style={{width: '100%'}}/>
+      </Box>
+    </Box>
+  </Dialog>
+  </div>
+);
+function DialogComponent (){
+  return (
+    <div>
+    {DialogBox}
+    </div>);
+}
+const MemoizedDialog = React.memo(DialogComponent);
 class PhotoList extends React.Component{
     render(){
       return(
@@ -148,65 +215,6 @@ class PhotoList extends React.Component{
                 Upload a Photo to rate
                 </Button>
                 {/*Pop up Window Starts from here here*/}
-                <div>
-                <Dialog
-                  fullScreen
-                  open={open}
-                  onClose={handleClose}
-                  TransitionComponent={Transition}
-                >
-                  <AppBar sx={{ position: 'relative' }}>
-                    <Toolbar>
-                      <IconButton
-                        edge="start"
-                        color="inherit"
-                        onClick={handleClose}
-                        aria-label="close"
-                      >
-                        <CloseIcon />
-                      </IconButton>
-                      <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-                        Create Your Post
-                      </Typography>
-                      <Button autoFocus color="inherit" onClick={handleClose}>
-                        Create
-                      </Button>
-                    </Toolbar>
-                  </AppBar>
-                  <Box sx={{ p: 3 }}>
-                    <Typography variant="h6" gutterBottom>
-                      Add a title
-                    </Typography>
-                    <TextField
-                      defaultValue="Default Value"
-                      id="standard-basic"
-                      label="Title"
-                      fullWidth
-                    />
-                    <Typography variant="h6" gutterBottom>
-                      Add a description
-                    </Typography>
-                    <TextField
-                      defaultValue="Default Value"
-                      id="standard-basic"
-                      label="Description"
-                      fullWidth
-                    />
-                    <Box sx={{ mt: 3 }}>
-                      <Typography variant="h6" gutterBottom>
-                        Add a photo
-                      </Typography>
-                      <input
-                        type="file"
-                        accept='image/png'
-                        onChange={showImage}
-                      />
-                      {/** render the uploaded image with flex size*/}
-                      <img src={currentImages} style={{width: '100%'}}/>
-                    </Box>
-                  </Box>
-                </Dialog>
-                </div>
                 {/*Pop up Window Ends here*/}
               </Stack>
             </Container>
