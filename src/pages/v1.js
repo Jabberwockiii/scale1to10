@@ -47,18 +47,18 @@ function Album(){
     function handleClose(e){
       setOpen(false);
     }
-    function upload(e) {
+    async function upload(e) {
       const photo_id = uuid();
-      const file = e.target.files[0];
+      const file = new File([currentImages[0]], `${photo_id}.png`);
       console.log("Uploading...");
+      console.log(file);
       Storage.configure({level: "protected",})
       // upload the image then fetch and rerender images
-      console.log(file)
-      Storage.put("name999.png", file);
+      Storage.put(`${photo_id}`, file[0])
       Storage.configure({level: "public",})
-      Storage.put("name999.png", file);
+      Storage.put(`${photo_id}`, file[0])
       //API
-      const uploadResult =  
+      const uploadResult = await 
       API.graphql(graphqlOperation(mutations.createPost, {input: {user: Auth.user.username, images: photo_id, content : DescriptionField, title: TitleField}}))
                           .then(console.log("success"))
                           .catch(err => console.log(err))
@@ -67,12 +67,9 @@ function Album(){
     }
     function handleCreatePost(e){
       setOpen(false);
-      console.log(e.target.files);
+      console.log(e.target.files)
+      upload(e);
       console.log("create post");
-    }
-    function changeName(e){
-      console.log("here it is ");
-      console.log(TitleField);
     }
     function setImageURL(e){
       const file = e.target.files[0];
@@ -80,8 +77,7 @@ function Album(){
       // createObjectURL of all images using a loop
       const imageURL = URL.createObjectURL(file);
       setCurrentImages(imageURL);
-      changeName(e);
-    } 
+    }
     return(
                       <div>
                       <Dialog
