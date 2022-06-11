@@ -17,7 +17,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Link } from "react-router-dom";
-
+import {DialogBox} from './UploadDialog';
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
@@ -61,10 +61,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 export default function NavBar({signOut}) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  
+  const [dialogBoxOpen, setDialogBoxOpen] = React.useState(false);
+
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -81,7 +81,9 @@ export default function NavBar({signOut}) {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
-
+  function handleAddPost() {
+    setDialogBoxOpen(true);
+  }
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
@@ -193,9 +195,13 @@ export default function NavBar({signOut}) {
               size="large"
               aria-label="add a new post"
               color="inherit"
+              onClick={() => {handleAddPost()}}
               >
               <AddCircleIcon/>
             </IconButton>
+            <DialogBox 
+                open = {dialogBoxOpen}
+                setOpen = {setDialogBoxOpen}/>
             <IconButton
               size="large"
               aria-label="show 4 new mails"

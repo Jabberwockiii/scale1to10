@@ -4,7 +4,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { render } from "react-dom";
 import ProfilePage from "./pages/ProfilePage";
-import StoryPage from "./pages/StoryPage";
+import PostPage from "./pages/PostPage";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import GalleryPage from "./pages/GalleryPage";
@@ -17,7 +17,7 @@ render(
       <Route path="/" element={<App />}>
         <Route index element={<GalleryPage />} />
         <Route path="profile" element={<ProfilePage />} />
-        <Route path="story/:storyId" element={<StoryPage />} />
+        <Route path="post/:postID" element={<PostPage />} />
         <Route path="newpost" element={<NewPost />} />
         <Route path="newpost2" element={<NewPost2 />} />
       </Route>

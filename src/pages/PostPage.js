@@ -12,26 +12,39 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import IconButton from "@mui/material/IconButton";
 import HoverRating from "./HoverRating";
-const StoryPage = () => {
-  const { storyId } = useParams();
+import { Storage } from 'aws-amplify'
+import { useEffect } from "react";
+function PostPage() {
+  let { postID } = useParams();
+  const [images, setImages] = React.useState([]);
+  console.log(postID);
+  Storage.configure({level: "protected"});
+  //get image by post id
+  useEffect(() => {
+    fetchImages()
+  }, [])
+  async function fetchImages() {
+    // Fetch list of images from S3
+    console.log("start fetching images");
+    Storage.configure(
+      {
+        level: "protected",
+      }
+    )
+    //get image by post id
+    let s3images = await Storage.get(`${postID}`)
+    console.log(s3images);
+    setImages(s3images)
+  }
 
-  const story = imageData.filter((story) => story.id == storyId)[0];
-  console.log(story);
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={1}>
         <Grid item xs={0.5} />
         <Grid item xs={5.5}>
-          {/* <img
-            src={`${story.img}?w=500&fit=crop&auto=format`}
-            srcSet={`${story.img}?w=500&fit=crop&auto=format&dpr=2 2x`}
-            alt={story.title}
-            loading="lazy"
-            style={{ borderRadius: "20px" }}
-          /> */}
           <img
-            src={`${story.img}`}
-            alt={story.title}
+            src={images[0]}
+            alt={123}
             loading="lazy"
             style={{ borderRadius: "20px", width: "100%" }}
           />
@@ -41,10 +54,10 @@ const StoryPage = () => {
             <CardContent>
               <Typography variant="h5" component="div"></Typography>
               <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                {story.title}
+                {123}
               </Typography>
-              <Typography variant="body2">{story.content}</Typography>
-              <HoverRating ratings={story.ratings} />
+              <Typography variant="body2">{123}</Typography>
+              <HoverRating ratings={123} />
             </CardContent>
             <CardActions>
               <Button size="small">Learn More</Button>
@@ -54,14 +67,6 @@ const StoryPage = () => {
               <IconButton aria-label="share">
                 <ShareIcon />
               </IconButton>
-              {/* <ExpandMore
-          expand={expanded}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
-          <ExpandMoreIcon />
-        </ExpandMore> */}
             </CardActions>
           </Card>
         </Grid>
@@ -71,4 +76,4 @@ const StoryPage = () => {
   );
 };
 
-export default StoryPage;
+export default PostPage;
