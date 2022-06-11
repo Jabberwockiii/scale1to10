@@ -43,20 +43,20 @@ function Album(){
     const [TitleField, setTitleField] = useState('');
     const [DescriptionField, setDescriptionField] = useState('');
     const [currentImages, setCurrentImages] = useState([]);
-
+    const [imageFile, setImageFile] = useState(null);
     function handleClose(e){
       setOpen(false);
     }
-    function upload(e) {
+    function upload(file) {
+      console.log(file);
       const photo_id = uuid();
-      const file = e.target.files[0];
       console.log("Uploading...");
       Storage.configure({level: "protected",})
       // upload the image then fetch and rerender images
       console.log(file)
-      Storage.put("name999.png", file);
+      Storage.put(uuid()+".png", file);
       Storage.configure({level: "public",})
-      Storage.put("name999.png", file);
+      Storage.put(uuid()+".png", file);
       //API
       const uploadResult =  
       API.graphql(graphqlOperation(mutations.createPost, {input: {user: Auth.user.username, images: photo_id, content : DescriptionField, title: TitleField}}))
@@ -65,14 +65,21 @@ function Album(){
       console.log("go through the result");
       return(uploadResult);
     }
-    function handleCreatePost(e){
+    async function handleCreatePost(e){
+      console.log(currentImages);
+      let file = await fetch(currentImages).then(r => r.blob());
+      console.log("Here is the blob")
+      console.log(file);
+      upload(file);
       setOpen(false);
-      console.log(e.target.files);
       console.log("create post");
     }
     function changeName(e){
+      const file = e.target.files[0];
+      setImageFile(file);
+      console.log(file);
       console.log("here it is ");
-      console.log(TitleField);
+      console.log(imageFile);
     }
     function setImageURL(e){
       const file = e.target.files[0];
@@ -80,8 +87,7 @@ function Album(){
       // createObjectURL of all images using a loop
       const imageURL = URL.createObjectURL(file);
       setCurrentImages(imageURL);
-      changeName(e);
-    } 
+    }
     return(
                       <div>
                       <Dialog
@@ -137,7 +143,7 @@ function Album(){
                             <input
                               type="file"
                               accept='image/png'
-                              onChange={setImageURL}
+                              onChange={(e) => {setImageURL(e)}}
                             />
                             {/** render the uploaded image with flex size*/}
                             <img src={currentImages} style={{width: '100%'}}/>

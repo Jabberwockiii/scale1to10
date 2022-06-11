@@ -1,35 +1,4 @@
 {
-  "dev": {
-    "awscloudformation": {
-      "AuthRoleName": "amplify-scale1to10-dev-205400-authRole",
-      "UnauthRoleArn": "arn:aws:iam::397323676186:role/amplify-scale1to10-dev-205400-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::397323676186:role/amplify-scale1to10-dev-205400-authRole",
-      "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-scale1to10-dev-205400-deployment",
-      "UnauthRoleName": "amplify-scale1to10-dev-205400-unauthRole",
-      "StackName": "amplify-scale1to10-dev-205400",
-      "StackId": "arn:aws:cloudformation:us-east-1:397323676186:stack/amplify-scale1to10-dev-205400/7f68a360-dd57-11ec-8ee3-0e7cf79b8843",
-      "AmplifyAppId": "dnn536sjjw15a"
-    },
-    "categories": {
-      "function": {
-        "function1": {
-          "deploymentBucketName": "amplify-scale1to10-dev-205400-deployment",
-          "s3Key": "amplify-builds/function1-454c43754b396e643137-build.zip"
-        }
-      },
-      "hosting": {
-        "amplifyhosting": {
-          "appId": "dnn536sjjw15a",
-          "type": "manual"
-        }
-      },
-      "auth": {
-        "scale1to104f125c69": {},
-        "userPoolGroups": {}
-      }
-    }
-  },
   "environ": {
     "awscloudformation": {
       "AuthRoleName": "amplify-scale1to10-environ-170543-authRole",
@@ -58,6 +27,37 @@
           "appId": "dnn536sjjw15a",
           "type": "manual"
         }
+      }
+    }
+  },
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-scale1to10-dev-205400-authRole",
+      "UnauthRoleArn": "arn:aws:iam::397323676186:role/amplify-scale1to10-dev-205400-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::397323676186:role/amplify-scale1to10-dev-205400-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-scale1to10-dev-205400-deployment",
+      "UnauthRoleName": "amplify-scale1to10-dev-205400-unauthRole",
+      "StackName": "amplify-scale1to10-dev-205400",
+      "StackId": "arn:aws:cloudformation:us-east-1:397323676186:stack/amplify-scale1to10-dev-205400/7f68a360-dd57-11ec-8ee3-0e7cf79b8843",
+      "AmplifyAppId": "dnn536sjjw15a"
+    },
+    "categories": {
+      "function": {
+        "function1": {
+          "deploymentBucketName": "amplify-scale1to10-dev-205400-deployment",
+          "s3Key": "amplify-builds/function1-454c43754b396e643137-build.zip"
+        }
+      },
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "dnn536sjjw15a",
+          "type": "manual"
+        }
+      },
+      "auth": {
+        "scale1to104f125c69": {},
+        "userPoolGroups": {}
       }
     }
   }
