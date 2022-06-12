@@ -1,7 +1,6 @@
 import React from "react";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import { imageData } from "../database/ImageData";
 import { useParams } from "react-router-dom";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
@@ -11,42 +10,131 @@ import Typography from "@mui/material/Typography";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import IconButton from "@mui/material/IconButton";
-import HoverRating from "./HoverRating";
 import { Storage } from 'aws-amplify'
 import { useEffect } from "react";
+
+import * as queries from '../graphql/queries';
+import * as mutations from '../graphql/mutations';
+import * as subscriptions from '../graphql/subscriptions';
+import { graphqlOperation } from 'aws-amplify';
+import Slider from '@mui/material/Slider';
+import{ API } from 'aws-amplify';
+
+let counter = 0;
+let submitRating = 0;
+let postVersion = 0;
 function PostPage() {
   let { postID } = useParams();
-  const [images, setImages] = React.useState([]);
-  console.log(postID);
+  const [image, setImage] = React.useState(String);
+  const [title, setTitle] = React.useState(String);
+  const [content, setContent] = React.useState(String);
+  const [rating, setRating] = React.useState(5);
+  const [remoteRating, setRemoteRating] = React.useState(0);
+  const [submitChance, setSubmitChance] = React.useState(false);
+  let submitButton = submitChance ? "Submited" : "Submit";
+  let ratingView = remoteRating >= 0 ? remoteRating.toFixed(1) : "No one rated yet";
   Storage.configure({level: "protected"});
   //get image by post id
   useEffect(() => {
-    fetchImages()
+    fetchImages();
+    fetchTitleAndDescription();
+    queryRating();
   }, [])
   async function fetchImages() {
     // Fetch list of images from S3
-    console.log("start fetching images");
     Storage.configure(
       {
-        level: "protected",
+        level: "public",
       }
     )
+    let image = await Storage.get(postID);
+    setImage(image);
     //get image by post id
-    let s3images = await Storage.get(`${postID}`)
-    console.log(s3images);
-    setImages(s3images)
   }
+  async function fetchTitleAndDescription() {
+    // Fetch list of images from S3
+    Storage.configure("public");
+    let post = graphqlOperation(queries.getPost, { id: postID });
+    let title = await API.graphql(post).then(res => {
+      return res.data.getPost.title;
+    });
+    let content = await API.graphql(post).then(res => {
+      return res.data.getPost.content;
+    });
+    setTitle(title);
+    setContent(content);
+    //
+    //get the post tile and description using graphQL query
+    
+    
+  }
+  function handleRating(rating, data) {
+    setRating(data);
+  }
+  async function handleSubmit() {
+    //get ratingCount from graphQL
+    counter = await API.graphql(
+      graphqlOperation(queries.getPost, { id: postID })
+    ).then(res => {
+      return res.data.getPost.ratingCounter;
+    });
+    postVersion = await API.graphql(
+      graphqlOperation(queries.getPost, { id: postID })
+    ).then(res => {
+      return res.data.getPost._version;
+    }
+    );
+    console.log("counter: " + counter);
+    console.log("postVersion: " + postVersion);
+    //update ratingCount in graphQL
+    const submitRating = rating;
+    let finalRating = (submitRating + remoteRating*counter) / (counter + 1);
+    let updateRating = await API.graphql(
+      graphqlOperation(mutations.updatePost, {
+        input: {
+          id: postID,
+          ratingCounter: counter + 1,
+          rating: finalRating,
+          //updating the latest version of the post
+          _version: postVersion,
+        }
+      })
+    ).then(res => {
+      console.log("upload status");
+      return res.data.updatePost.rating;
+    }).catch(err => {
+      console.log(err);
+    });
+    console.log("After rating"+ updateRating);
+    setSubmitChance(true);
+    queryRating();
+  }
+  async function queryRating(){
+    let post = graphqlOperation(queries.getPost, { id: postID });
+    let remote = await API.graphql(post).then(res => {
+      return res.data.getPost.rating;
+    }
+    );
+    setRemoteRating(remote);
+  }
+
+  console.log("remoteRating: " + remoteRating);
+  console.log("rating: " + rating);
+  console.log("counter: " + counter);
+  console.log("postVersion: " + postVersion);
+  console.log(postID);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <Grid container spacing={1}>
+      <Grid container spacing={1}
+        sx ={{pt:3}}>
         <Grid item xs={0.5} />
         <Grid item xs={5.5}>
           <img
-            src={images[0]}
-            alt={123}
+            src={image}
+            alt={title}
             loading="lazy"
-            style={{ borderRadius: "20px", width: "100%" }}
+            style={{ borderRadius: "5px", width: "100%" }}
           />
         </Grid>
         <Grid item xs={5.5}>
@@ -54,10 +142,28 @@ function PostPage() {
             <CardContent>
               <Typography variant="h5" component="div"></Typography>
               <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                {123}
+                {title}
               </Typography>
-              <Typography variant="body2">{123}</Typography>
-              <HoverRating ratings={123} />
+              <Typography varHiant="body2">{content}</Typography>
+              <Box width={300} sx = {{mx:"auto", pt:3}}>
+              <Typography varHiant="body2">Drag the Bar to rate this person</Typography>
+              <Slider defaultValue={50}
+               aria-label="Default"
+               valueLabelDisplay="auto"
+               onChange = {handleRating}
+               disabled = {submitChance}
+               step = {0.1}
+               min = {0}
+               max = {10}/>
+              </Box>
+              <Button variant="contained" color="error"
+                onClick = {handleSubmit}>
+                {submitButton}
+              </Button>
+              <Typography varHiant="h4" sx = {{pt:2, fontWeight: "bold"}}> Your Points: {rating} </Typography>
+              <Typography varHiant="h4" sx = {{pt:2, fontWeight: "bold"}}>Original Points:{ratingView}</Typography>
+              <Typography varHiant="h4" sx = {{pt:2, fontWeight: "bold"}}>{counter} People have rated</Typography>
+
             </CardContent>
             <CardActions>
               <Button size="small">Learn More</Button>

@@ -14,7 +14,13 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
+import {Link as RouterLink} from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import * as queries from '../graphql/queries';
+import * as mutations from '../graphql/mutations';
+import * as subscriptions from '../graphql/subscriptions';
+
+import { API, graphqlOperation } from 'aws-amplify';
 
 function Copyright() {
   return (
@@ -28,7 +34,9 @@ function Copyright() {
     </Typography>
   );
 }
-
+//This is very dangerous 
+var imageDict = {};
+var titleDict = {}
 function Gallery() {
   //images hook
   const [images, setImages] = useState([]);
@@ -39,9 +47,17 @@ function Gallery() {
       // Fetch list of images from S3
     Storage.configure({level: "public",})
     let s3images = await Storage.list('')
+    console.log("s3 images: ",s3images);
       // Get presigned URL for S3 images to display images in app
     s3images = await Promise.all(s3images.map(async image => {
       const signedImage = await Storage.get(image.key)
+      console.log("here is the siged image", signedImage)
+      imageDict[signedImage] = image.key;
+      // let post = await API.graphql(graphqlOperation(queries.getPost, { id: image.key }))
+      // let title = await API.graphql(post).then(res => {
+      //   titleDict[signedImage] = res.data.getPost.title;
+      // });
+      // console.log("image dict: ", imageDict)
       return signedImage
     }))
     setImages(s3images)
@@ -89,12 +105,17 @@ class PhotoList extends React.Component{
               {images.map((image) => (
                 <Grid item key={image} xs={12} sm={6} md={4}>
                   <Card md={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-                    <CardMedia component="img" md={{pt: '10%',}} image={image} alt="random"/>
-                    <CardContent> Here is the dynamic words </CardContent>
+                  <RouterLink to={`/post/${imageDict[image]}`}>
+                  <CardMedia component="img" md={{pt: '10%',}} image={image} alt="random"/>
+                  </RouterLink>
+                    <CardContent> 123</CardContent>
                   </Card>
                   <CardActions md={{display:'flex', pb:'1%'}} >
-                      <Button size="small">View</Button>
+                      <RouterLink to={`/post/${imageDict[image]}`}
+                      style={{ textDecoration: 'none' }}>
                       <Button size="small">Rate</Button>
+                      </RouterLink>
+                      <Button size="small">Report</Button>
                     </CardActions>
                 </Grid>
               ))}

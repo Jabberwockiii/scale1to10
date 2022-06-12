@@ -2,8 +2,8 @@
 // this is an auto generated file. This will be overwritten
 
 export const onCreateComment = /* GraphQL */ `
-  subscription OnCreateComment($owner: String) {
-    onCreateComment(owner: $owner) {
+  subscription OnCreateComment {
+    onCreateComment {
       id
       text
       user
@@ -24,6 +24,8 @@ export const onCreateComment = /* GraphQL */ `
           _lastChangedAt
           owner
         }
+        rating
+        ratingCounter
         createdAt
         updatedAt
         _version
@@ -41,8 +43,8 @@ export const onCreateComment = /* GraphQL */ `
   }
 `;
 export const onUpdateComment = /* GraphQL */ `
-  subscription OnUpdateComment($owner: String) {
-    onUpdateComment(owner: $owner) {
+  subscription OnUpdateComment {
+    onUpdateComment {
       id
       text
       user
@@ -63,6 +65,8 @@ export const onUpdateComment = /* GraphQL */ `
           _lastChangedAt
           owner
         }
+        rating
+        ratingCounter
         createdAt
         updatedAt
         _version
@@ -80,8 +84,8 @@ export const onUpdateComment = /* GraphQL */ `
   }
 `;
 export const onDeleteComment = /* GraphQL */ `
-  subscription OnDeleteComment($owner: String) {
-    onDeleteComment(owner: $owner) {
+  subscription OnDeleteComment {
+    onDeleteComment {
       id
       text
       user
@@ -102,6 +106,8 @@ export const onDeleteComment = /* GraphQL */ `
           _lastChangedAt
           owner
         }
+        rating
+        ratingCounter
         createdAt
         updatedAt
         _version
@@ -119,8 +125,8 @@ export const onDeleteComment = /* GraphQL */ `
   }
 `;
 export const onCreatePost = /* GraphQL */ `
-  subscription OnCreatePost($owner: String) {
-    onCreatePost(owner: $owner) {
+  subscription OnCreatePost {
+    onCreatePost {
       id
       title
       content
@@ -136,6 +142,8 @@ export const onCreatePost = /* GraphQL */ `
           content
           user
           images
+          rating
+          ratingCounter
           createdAt
           updatedAt
           _version
@@ -150,6 +158,8 @@ export const onCreatePost = /* GraphQL */ `
         _lastChangedAt
         owner
       }
+      rating
+      ratingCounter
       createdAt
       updatedAt
       _version
@@ -160,8 +170,8 @@ export const onCreatePost = /* GraphQL */ `
   }
 `;
 export const onUpdatePost = /* GraphQL */ `
-  subscription OnUpdatePost($owner: String) {
-    onUpdatePost(owner: $owner) {
+  subscription OnUpdatePost {
+    onUpdatePost {
       id
       title
       content
@@ -177,6 +187,8 @@ export const onUpdatePost = /* GraphQL */ `
           content
           user
           images
+          rating
+          ratingCounter
           createdAt
           updatedAt
           _version
@@ -191,6 +203,8 @@ export const onUpdatePost = /* GraphQL */ `
         _lastChangedAt
         owner
       }
+      rating
+      ratingCounter
       createdAt
       updatedAt
       _version
@@ -201,8 +215,8 @@ export const onUpdatePost = /* GraphQL */ `
   }
 `;
 export const onDeletePost = /* GraphQL */ `
-  subscription OnDeletePost($owner: String) {
-    onDeletePost(owner: $owner) {
+  subscription OnDeletePost {
+    onDeletePost {
       id
       title
       content
@@ -218,6 +232,8 @@ export const onDeletePost = /* GraphQL */ `
           content
           user
           images
+          rating
+          ratingCounter
           createdAt
           updatedAt
           _version
@@ -232,6 +248,8 @@ export const onDeletePost = /* GraphQL */ `
         _lastChangedAt
         owner
       }
+      rating
+      ratingCounter
       createdAt
       updatedAt
       _version

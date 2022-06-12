@@ -2,12 +2,11 @@
 import React, { useState, useEffect } from 'react';
 import { Storage } from 'aws-amplify'
 import { withAuthenticator} from '@aws-amplify/ui-react'
-import { v4 as uuid } from 'uuid';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import CardMedia from '@mui/material/CardMedia';
+import CardContent from '@mui/material/CardContent';
 import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
@@ -15,25 +14,8 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
+import {Link as RouterLink} from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { API } from 'aws-amplify';
-import * as queries from '../graphql/queries';
-import * as mutations from '../graphql/mutations';
-import * as subscriptions from '../graphql/subscriptions';
-import { graphqlOperation } from 'aws-amplify';
-import { TextField } from '@mui/material';
-
-import CloseIcon from '@mui/icons-material/Close';
-import Slide from '@mui/material/Slide';
-import { TransitionProps } from '@mui/material/transitions';
-import Dialog from '@mui/material/Dialog';
-import ListItemText from '@mui/material/ListItemText';
-import ListItem from '@mui/material/ListItem';
-import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
 
 function Copyright() {
   return (
@@ -47,89 +29,42 @@ function Copyright() {
     </Typography>
   );
 }
-function DialogBox(){
 
-}
-function Album() {
+function Gallery() {
   //images hook
   const [images, setImages] = useState([]);
-  const [currentImages, setCurrentImages] = useState([]);
-  const [titleField, setTitleField] = useState('');
-  const [descriptionField, setDescriptionField] = useState('');
+  const [unsignedImages, setUnsignedImages] = useState([]);
+
   useEffect(() => {
     fetchImages()
   }, [])
   async function fetchImages() {
       // Fetch list of images from S3
-    Storage.configure(
-      {
-        level: "protected",
-      }
-    )
+    Storage.configure({level: "public",})
     let s3images = await Storage.list('')
+    setUnsignedImages(s3images);
+    console.log("s3 images: ",s3images);
       // Get presigned URL for S3 images to display images in app
     s3images = await Promise.all(s3images.map(async image => {
       const signedImage = await Storage.get(image.key)
+      console.log("here is the siged image", signedImage)
       return signedImage
     }))
     setImages(s3images)
   }
-  function upload(e) {
-    if (!e.target.files[0]) return
-    Storage.configure({level: "protected",})
-    const file = e.target.files[0];
-      // upload the image then fetch and rerender images
-    const photo_id = uuid()
-    Storage.put(photo_id, file).then (() => fetchImages())
-    Storage.configure({level: "public",})
-    Storage.put(photo_id, file).then (() => fetchImages())
-    // two photos were stored one in public and one in protected
-    // Use API to create a post with the photo_id
-    try{
-      API.graphql(graphqlOperation(mutations.createPost, {input: {images : photo_id + '.png'}}))
-    }
-    catch(err){
-      console.log(err)
-    }
-  }
-  function showImage(e){
-    if (!e.target.files[0]) return
-    const [file] = e.target.files
-    // createObjectURL of all images using a loop
-    const imageURL = URL.createObjectURL(file)
-    setCurrentImages(imageURL)
-  }  
 const theme = createTheme();
-const Transition = React.forwardRef(function Transition(
-  props: TransitionProps,
-  ref: React.Ref<unknown>,
-  ) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
-const [open, setOpen] = React.useState(false);
-const handleClickOpen = (e) => {
-  setOpen(true);
-  const file = e.target.files[0]
-  upload(e);
-};
-const handleClose = () => {
-  setOpen(false);
-};
-const handleCreatePost = (e) => {
-  setOpen(false);
-  upload(e);
-}
 class PhotoList extends React.Component{
     render(){
       return(
         <ThemeProvider theme={theme}>
         <CssBaseline />
         <main>
+          {/* Hero unit */}
           <Box
             sx={{
               bgcolor: 'background.paper',
-              pt: 8,
-              pb: 6,
+              pt: 0,
+              pb: 0,
             }}
           >
             <Container maxWidth="sm">
@@ -140,11 +75,10 @@ class PhotoList extends React.Component{
                 color="text.primary"
                 gutterBottom
               >
-                Share a Picture to find something new about yourself
+                Rate your friends
               </Typography>
               <Typography variant="h5" align="center" color="text.secondary" paragraph>
-                You are anxious about your appearance but we can help, get some feedback from your friends.
-                And see how attractive you are 
+                Here are some pictures you can rate and comment on.
               </Typography>
               <Stack
                 sx={{ pt: 4 }}
@@ -152,103 +86,24 @@ class PhotoList extends React.Component{
                 spacing={2}
                 justifyContent="center"
               >
-                <Button
-                variant="contained"
-                color="primary"
-                component="label"
-                onClick={handleClickOpen}>
-                Upload a Photo to rate
-                </Button>
-                {/*Pop up Window Starts from here here*/}
-                <div>
-                <Dialog
-                  fullScreen
-                  open={open}
-                  onClose={handleClose}
-                >
-                  <AppBar sx={{ position: 'relative' }}>
-                    <Toolbar>
-                      <IconButton
-                        edge="start"
-                        color="inherit"
-                        onClick={handleClose}
-                        aria-label="close"
-                      >
-                        <CloseIcon />
-                      </IconButton>
-                      <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-                        Create Your Post
-                      </Typography>
-                      <Button autoFocus color="inherit" onClick={handleCreatePost}>
-                        Create
-                      </Button>
-                    </Toolbar>
-                  </AppBar>
-                  <Box sx={{ p: 3 }}>
-                    
-                    <Typography variant="h6" gutterBottom>
-                      Add a title
-                    </Typography>
-                    <TextField
-                      autoFocus
-                      defaultValue="Default Value"
-                      id="standard-basic"
-                      label="Title"
-                      fullWidth
-                      onChange = {(e) => {setTitleField(e.target.value)}}
-                    />
-                    <Typography variant="h6" gutterBottom>
-                      Add a description
-                    </Typography>
-                    <TextField
-                      autoFocus
-                      defaultValue="Default Value"
-                      id="standard-basic"
-                      label="Description"
-                      fullWidth
-                      onChange = {(e) => {setDescriptionField(e.target.value)}}
-                    />
-                    <Box sx={{ mt: 3 }}>
-                      <Typography variant="h6" gutterBottom>
-                        Add a photo
-                      </Typography>
-                      <input
-                        type="file"
-                        accept='image/png'
-                        onChange={showImage}
-                      />
-                      {/** render the uploaded image with flex size*/}
-                      <img src={currentImages} style={{width: '100%'}}/>
-                    </Box>
-                  </Box>
-                </Dialog>
-                </div>
-                {/*Pop up Window Ends here*/}
               </Stack>
             </Container>
           </Box>
-          <Container sx={{ py: 8 }} maxWidth="md">
+          <Container sx={{ py: 10 }} maxWidth="lg">
             {/* End hero unit */}
-            <Grid container spacing={4}>
+            <Grid container spacing={5}>
               {images.map((image) => (
                 <Grid item key={image} xs={12} sm={6} md={4}>
-                  <Card
-                    sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
-                  >
-                    <CardMedia
-                      component="img"
-                      sx={{
-                        // 16:9
-                        pt: '56.25%',
-                      }}
-                      image={image}
-                      alt="random"
-                    />
+                  <Card md={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+                    <CardMedia component="img" md={{pt: '10%',}} image={image} alt="random"/>
+                    <CardContent> Here is the dynamic words </CardContent>
                   </Card>
-                  <CardActions>
+                  <CardActions md={{display:'flex', pb:'1%'}} >
+                      <RouterLink to={`/story/${unsignedImages[1].key}`}>
                       <Button size="small">View</Button>
-                      <Button size="small">Edit</Button>
-                  </CardActions>
+                      </RouterLink>
+                      <Button size="small">Rate</Button>
+                    </CardActions>
                 </Grid>
               ))}
             </Grid>
@@ -265,7 +120,7 @@ class PhotoList extends React.Component{
             color="text.secondary"
             component="p"
           >
-            Something here to give the footer a purpose!
+            be Real, rate your friends. 
           </Typography>
           <Copyright />
         </Box>
@@ -277,4 +132,4 @@ class PhotoList extends React.Component{
   //final return 
   return (<PhotoList />);
 }
-export default withAuthenticator(Album);
+export default withAuthenticator(Gallery);

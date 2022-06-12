@@ -21,8 +21,12 @@ Completed Function:
        3. update the textField and Descriptionfield 
        4. upload a picture, create the post  
 Todo:
-    png/jpg/ import type 
-    import pictures number 
+    Pagination random fetch 
+    Comment system
+
+
+    
+
     
 
     

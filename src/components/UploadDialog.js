@@ -30,19 +30,19 @@ export function DialogBox({open, setOpen}) {
   function handleClose(e){
     setOpen(false);
   }
-  function upload(file) {
+  async function upload(file) {
     console.log(file);
     const photo_id = uuid();
     console.log("Uploading...");
     Storage.configure({level: "protected",})
     // upload the image then fetch and rerender images
     console.log(file)
-    Storage.put(uuid()+".png", file);
+    Storage.put(photo_id, file);
     Storage.configure({level: "public",})
-    Storage.put(uuid()+".png", file);
+    Storage.put(photo_id, file);
     //API
-    const uploadResult =  
-    API.graphql(graphqlOperation(mutations.createPost, {input: {user: Auth.user.username, images: photo_id, content : DescriptionField, title: TitleField}}))
+    const uploadResult =  await
+    API.graphql(graphqlOperation(mutations.createPost, {input: {id: photo_id, user: Auth.user.username, images: photo_id, content : DescriptionField, title: TitleField}}))
                         .then(console.log("success"))
                         .catch(err => console.log(err))
     console.log("go through the result");
@@ -56,13 +56,6 @@ export function DialogBox({open, setOpen}) {
     upload(file);
     setOpen(false);
     console.log("create post");
-  }
-  function changeName(e){
-    const file = e.target.files[0];
-    setImageFile(file);
-    console.log(file);
-    console.log("here it is ");
-    console.log(imageFile);
   }
   function setImageURL(e){
     const file = e.target.files[0];

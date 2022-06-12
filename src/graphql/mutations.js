@@ -27,6 +27,8 @@ export const createComment = /* GraphQL */ `
           _lastChangedAt
           owner
         }
+        rating
+        ratingCounter
         createdAt
         updatedAt
         _version
@@ -69,6 +71,8 @@ export const updateComment = /* GraphQL */ `
           _lastChangedAt
           owner
         }
+        rating
+        ratingCounter
         createdAt
         updatedAt
         _version
@@ -111,6 +115,8 @@ export const deleteComment = /* GraphQL */ `
           _lastChangedAt
           owner
         }
+        rating
+        ratingCounter
         createdAt
         updatedAt
         _version
@@ -148,6 +154,8 @@ export const createPost = /* GraphQL */ `
           content
           user
           images
+          rating
+          ratingCounter
           createdAt
           updatedAt
           _version
@@ -162,6 +170,8 @@ export const createPost = /* GraphQL */ `
         _lastChangedAt
         owner
       }
+      rating
+      ratingCounter
       createdAt
       updatedAt
       _version
@@ -192,6 +202,8 @@ export const updatePost = /* GraphQL */ `
           content
           user
           images
+          rating
+          ratingCounter
           createdAt
           updatedAt
           _version
@@ -206,6 +218,8 @@ export const updatePost = /* GraphQL */ `
         _lastChangedAt
         owner
       }
+      rating
+      ratingCounter
       createdAt
       updatedAt
       _version
@@ -236,6 +250,8 @@ export const deletePost = /* GraphQL */ `
           content
           user
           images
+          rating
+          ratingCounter
           createdAt
           updatedAt
           _version
@@ -250,6 +266,8 @@ export const deletePost = /* GraphQL */ `
         _lastChangedAt
         owner
       }
+      rating
+      ratingCounter
       createdAt
       updatedAt
       _version
