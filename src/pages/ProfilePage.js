@@ -29,7 +29,8 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import { Auth } from 'aws-amplify';
 import {DialogBox} from '../components/UploadDialog';
-
+import {Link as RouterLink} from 'react-router-dom';
+var imageDict = {};
 function Album(){
   const [open, setOpen] = useState(false);
 
@@ -65,6 +66,7 @@ function Album(){
         // Get presigned URL for S3 images to display images in app
       s3images = await Promise.all(s3images.map(async image => {
         const signedImage = await Storage.get(image.key)
+        imageDict[signedImage] = image.key;
         return signedImage
       }))
       setPhotos(s3images)
@@ -119,11 +121,11 @@ function Album(){
               {photos.map((image) => (
                 <Grid item key={image} xs={12} sm={6} md={4}>
                   <Card
-                    sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
+                    sm={{ height: '100%', display: 'flex', flexDirection: 'column' }}
                   >
                     <CardMedia
                       component="img"
-                      sx={{
+                      sm={{
                         // 16:9
                         pt: '56.25%',
                       }}
@@ -132,7 +134,10 @@ function Album(){
                     />
                   </Card>
                   <CardActions>
+                  <RouterLink to={`/post/${imageDict[image]}`}
+                    style={{ textDecoration: 'none' }}>
                       <Button size="small">View</Button>
+                  </RouterLink>
                       <Button size="small">Edit</Button>
                   </CardActions>
                 </Grid>

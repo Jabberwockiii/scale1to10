@@ -21,7 +21,12 @@ import * as mutations from '../graphql/mutations';
 import * as subscriptions from '../graphql/subscriptions';
 
 import { API, graphqlOperation } from 'aws-amplify';
-
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import rate1 from '../static/rate1.jpg';
+import rate2 from '../static/rate2.jpg';
+import { RoundedCornerTwoTone } from '@mui/icons-material';
 function Copyright() {
   return (
     <Typography variant="body2" color="text.secondary" align="center">
@@ -36,10 +41,10 @@ function Copyright() {
 }
 //This is very dangerous 
 var imageDict = {};
-var titleDict = {}
 function Gallery() {
   //images hook
   const [images, setImages] = useState([]);
+  const [open, setOpen] = useState(false);
   useEffect(() => {
     fetchImages()
   }, [])
@@ -53,14 +58,9 @@ function Gallery() {
       const signedImage = await Storage.get(image.key)
       console.log("here is the siged image", signedImage)
       imageDict[signedImage] = image.key;
-      // let post = await API.graphql(graphqlOperation(queries.getPost, { id: image.key }))
-      // let title = await API.graphql(post).then(res => {
-      //   titleDict[signedImage] = res.data.getPost.title;
-      // });
-      // console.log("image dict: ", imageDict)
-      return signedImage
+      return signedImage;
     }))
-    setImages(s3images)
+    setImages(s3images);
   }
 const theme = createTheme();
 class PhotoList extends React.Component{
@@ -84,12 +84,19 @@ class PhotoList extends React.Component{
                 align="center"
                 color="text.primary"
                 gutterBottom
+                pt={4}
               >
                 Rate your friends
               </Typography>
               <Typography variant="h5" align="center" color="text.secondary" paragraph>
                 Here are some pictures you can rate and comment on.
               </Typography>
+              <RouterLink to="/gallery"
+              style = {{textDecoration:"none"}}>
+              <Button variant="h5" align="center" color="error" >
+                rating rule 
+              </Button>
+              </RouterLink>
               <Stack
                 sx={{ pt: 4 }}
                 direction="row"
@@ -108,7 +115,7 @@ class PhotoList extends React.Component{
                   <RouterLink to={`/post/${imageDict[image]}`}>
                   <CardMedia component="img" md={{pt: '10%',}} image={image} alt="random"/>
                   </RouterLink>
-                    <CardContent> 123</CardContent>
+                    <CardContent> What do you think about this person?</CardContent>
                   </Card>
                   <CardActions md={{display:'flex', pb:'1%'}} >
                       <RouterLink to={`/post/${imageDict[image]}`}

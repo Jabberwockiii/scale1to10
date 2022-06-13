@@ -30,6 +30,7 @@ export declare class Post {
   readonly images?: (string | null)[] | null;
   readonly rating?: number | null;
   readonly ratingCounter?: number | null;
+  readonly ratingPeople?: (string | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   constructor(init: ModelInit<Post, PostMetaData>);

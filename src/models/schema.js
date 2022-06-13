@@ -134,6 +134,14 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "ratingPeople": {
+                    "name": "ratingPeople",
+                    "isArray": true,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -194,5 +202,5 @@ export const schema = {
     },
     "enums": {},
     "nonModels": {},
-    "version": "9b7764c7584cda7ba99014ac602ab87a"
+    "version": "eee5f1081801833fdd458958dfb6400f"
 };

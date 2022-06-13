@@ -29,6 +29,7 @@ export const createComment = /* GraphQL */ `
         }
         rating
         ratingCounter
+        ratingPeople
         createdAt
         updatedAt
         _version
@@ -73,6 +74,7 @@ export const updateComment = /* GraphQL */ `
         }
         rating
         ratingCounter
+        ratingPeople
         createdAt
         updatedAt
         _version
@@ -117,6 +119,7 @@ export const deleteComment = /* GraphQL */ `
         }
         rating
         ratingCounter
+        ratingPeople
         createdAt
         updatedAt
         _version
@@ -156,6 +159,7 @@ export const createPost = /* GraphQL */ `
           images
           rating
           ratingCounter
+          ratingPeople
           createdAt
           updatedAt
           _version
@@ -172,6 +176,7 @@ export const createPost = /* GraphQL */ `
       }
       rating
       ratingCounter
+      ratingPeople
       createdAt
       updatedAt
       _version
@@ -204,6 +209,7 @@ export const updatePost = /* GraphQL */ `
           images
           rating
           ratingCounter
+          ratingPeople
           createdAt
           updatedAt
           _version
@@ -220,6 +226,7 @@ export const updatePost = /* GraphQL */ `
       }
       rating
       ratingCounter
+      ratingPeople
       createdAt
       updatedAt
       _version
@@ -252,6 +259,7 @@ export const deletePost = /* GraphQL */ `
           images
           rating
           ratingCounter
+          ratingPeople
           createdAt
           updatedAt
           _version
@@ -268,6 +276,7 @@ export const deletePost = /* GraphQL */ `
       }
       rating
       ratingCounter
+      ratingPeople
       createdAt
       updatedAt
       _version

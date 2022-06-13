@@ -24,6 +24,7 @@ type Post @model @auth(rules: [
   comments: [Comment]
   rating: Float 
   ratingCounter: Int
+  ratingPeople: [String]
 }
 
 

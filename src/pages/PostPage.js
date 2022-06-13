@@ -19,20 +19,22 @@ import * as subscriptions from '../graphql/subscriptions';
 import { graphqlOperation } from 'aws-amplify';
 import Slider from '@mui/material/Slider';
 import{ API } from 'aws-amplify';
+import {Auth} from 'aws-amplify';
 
 let counter = 0;
-let submitRating = 0;
 let postVersion = 0;
 function PostPage() {
   let { postID } = useParams();
   const [image, setImage] = React.useState(String);
   const [title, setTitle] = React.useState(String);
   const [content, setContent] = React.useState(String);
-  const [rating, setRating] = React.useState(5);
+  const [rating, setRating] = React.useState(10);
   const [remoteRating, setRemoteRating] = React.useState(0);
   const [submitChance, setSubmitChance] = React.useState(false);
+  const [existingRatingPeople, setExistingRatingPeople] = React.useState([]);
+
   let submitButton = submitChance ? "Submited" : "Submit";
-  let ratingView = remoteRating >= 0 ? remoteRating.toFixed(1) : "No one rated yet";
+  let ratingView = remoteRating > 0 ? remoteRating.toFixed(1) : 0;
   Storage.configure({level: "protected"});
   //get image by post id
   useEffect(() => {
@@ -40,6 +42,7 @@ function PostPage() {
     fetchTitleAndDescription();
     queryRating();
   }, [])
+  
   async function fetchImages() {
     // Fetch list of images from S3
     Storage.configure(
@@ -61,6 +64,11 @@ function PostPage() {
     let content = await API.graphql(post).then(res => {
       return res.data.getPost.content;
     });
+    let existingPeople = await API.graphql(post).then(res => {
+      return res.data.getPost.ratingPeople;
+    });
+    setExistingRatingPeople(existingPeople);
+    console.log("Did someone rated??"+existingPeople);
     setTitle(title);
     setContent(content);
     //
@@ -97,6 +105,7 @@ function PostPage() {
           rating: finalRating,
           //updating the latest version of the post
           _version: postVersion,
+          ratingPeople: existingRatingPeople ? [...existingRatingPeople, Auth.user.username] : [Auth.user.username],
         }
       })
     ).then(res => {
@@ -156,8 +165,9 @@ function PostPage() {
                min = {0}
                max = {10}/>
               </Box>
-              <Button variant="contained" color="error"
-                onClick = {handleSubmit}>
+              <Button variant="contained" color="error" 
+                onClick = {handleSubmit}
+                disabled = {submitChance}>
                 {submitButton}
               </Button>
               <Typography varHiant="h4" sx = {{pt:2, fontWeight: "bold"}}> Your Points: {rating} </Typography>
@@ -181,5 +191,4 @@ function PostPage() {
     </Box>
   );
 };
-
 export default PostPage;

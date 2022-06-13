@@ -10,6 +10,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import GalleryPage from "./pages/GalleryPage";
 import NewPost from "./pages/NewPost";
 import NewPost2 from"./pages/ProfilePage";
+import Gallery from "./pages/RulePage";
 const rootElement = document.getElementById("root");
 render(
   <BrowserRouter>
@@ -20,6 +21,7 @@ render(
         <Route path="post/:postID" element={<PostPage />} />
         <Route path="newpost" element={<NewPost />} />
         <Route path="newpost2" element={<NewPost2 />} />
+        <Route path="gallery" element={<Gallery />} />
       </Route>
       <Route
         path="*"
