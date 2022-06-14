@@ -14,6 +14,7 @@ type PostMetaData = {
 
 export declare class Comment {
   readonly id: string;
+  readonly postID: string;
   readonly text: string;
   readonly user: string;
   readonly createdAt?: string | null;
@@ -28,6 +29,7 @@ export declare class Post {
   readonly content: string;
   readonly user: string;
   readonly images?: (string | null)[] | null;
+  readonly comments?: (Comment | null)[] | null;
   readonly rating?: number | null;
   readonly ratingCounter?: number | null;
   readonly ratingPeople?: (string | null)[] | null;

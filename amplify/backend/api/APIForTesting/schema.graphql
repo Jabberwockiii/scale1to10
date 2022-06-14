@@ -5,11 +5,13 @@ type Comment @model @auth(rules: [
   { allow : owner, operations: [create, update, delete] }
   { allow : public, operations: [read]}
   { allow : private, operations: [read, update]}
-  ]){ 
-  id: ID! 
+  ]) 
+  { 
+  id: ID!
+  postID: ID! @index(name:"byPost", sortKeyFields:["user", "text"])
+  post: Post 
   text: String!
   user: String!
-  post: Post!
 }
 type Post @model @auth(rules: [
   { allow : owner, operations: [create, update, delete] }
@@ -21,7 +23,7 @@ type Post @model @auth(rules: [
   content: String!
   user: String!
   images: [String]
-  comments: [Comment]
+  comments: [Comment] @hasMany(indexName:"byPost", fields:["id"])
   rating: Float 
   ratingCounter: Int
   ratingPeople: [String]

@@ -30,6 +30,7 @@ import IconButton from '@mui/material/IconButton';
 import { Auth } from 'aws-amplify';
 import {DialogBox} from '../components/UploadDialog';
 import {Link as RouterLink} from 'react-router-dom';
+import { WindowSharp } from '@mui/icons-material';
 var imageDict = {};
 function Album(){
   const [open, setOpen] = useState(false);
@@ -55,6 +56,14 @@ function Album(){
     useEffect(() => {
       fetchImages()
     }, [])
+    async function handleDeletePost(id){
+      //delete it in S3
+      Storage.configure({level: "protected",})
+      console.log("This is the key" + id);
+      await Storage.remove(id).then(() => {console.log("Deleted")}).catch(err => {console.log(err)});
+      await API.graphql(graphqlOperation(mutations.deletePost, {input: {id: id}}))
+      fetchImages();
+    }
     async function fetchImages() {
         // Fetch list of images from S3
       Storage.configure(
@@ -67,7 +76,7 @@ function Album(){
       s3images = await Promise.all(s3images.map(async image => {
         const signedImage = await Storage.get(image.key)
         imageDict[signedImage] = image.key;
-        return signedImage
+        return signedImage;
       }))
       setPhotos(s3images)
     }
@@ -106,12 +115,14 @@ function Album(){
                 variant="contained"
                 color="primary"
                 component="label"
-                onClick={handleClickOpen}>
+                onClick={handleClickOpen}
+                >
                 Upload a Photo to rate
                 </Button>
                 <DialogBox 
                 open = {open}
-                setOpen = {setOpen}/>
+                setOpen = {setOpen}
+                />
               </Stack>
             </Container>
           </Box>
@@ -138,7 +149,7 @@ function Album(){
                     style={{ textDecoration: 'none' }}>
                       <Button size="small">View</Button>
                   </RouterLink>
-                      <Button size="small">Edit</Button>
+                      <Button size="small" onClick = {handleDeletePost(imageDict[image])}>Delete</Button>
                   </CardActions>
                 </Grid>
               ))}
