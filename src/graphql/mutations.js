@@ -8,8 +8,7 @@ export const createComment = /* GraphQL */ `
   ) {
     createComment(input: $input, condition: $condition) {
       id
-      text
-      user
+      postID
       post {
         id
         title
@@ -18,6 +17,7 @@ export const createComment = /* GraphQL */ `
         images
         comments {
           id
+          postID
           text
           user
           createdAt
@@ -37,6 +37,8 @@ export const createComment = /* GraphQL */ `
         _lastChangedAt
         owner
       }
+      text
+      user
       createdAt
       updatedAt
       _version
@@ -53,8 +55,7 @@ export const updateComment = /* GraphQL */ `
   ) {
     updateComment(input: $input, condition: $condition) {
       id
-      text
-      user
+      postID
       post {
         id
         title
@@ -63,6 +64,7 @@ export const updateComment = /* GraphQL */ `
         images
         comments {
           id
+          postID
           text
           user
           createdAt
@@ -82,6 +84,8 @@ export const updateComment = /* GraphQL */ `
         _lastChangedAt
         owner
       }
+      text
+      user
       createdAt
       updatedAt
       _version
@@ -98,8 +102,7 @@ export const deleteComment = /* GraphQL */ `
   ) {
     deleteComment(input: $input, condition: $condition) {
       id
-      text
-      user
+      postID
       post {
         id
         title
@@ -108,6 +111,7 @@ export const deleteComment = /* GraphQL */ `
         images
         comments {
           id
+          postID
           text
           user
           createdAt
@@ -127,6 +131,8 @@ export const deleteComment = /* GraphQL */ `
         _lastChangedAt
         owner
       }
+      text
+      user
       createdAt
       updatedAt
       _version
@@ -149,8 +155,7 @@ export const createPost = /* GraphQL */ `
       images
       comments {
         id
-        text
-        user
+        postID
         post {
           id
           title
@@ -167,6 +172,8 @@ export const createPost = /* GraphQL */ `
           _lastChangedAt
           owner
         }
+        text
+        user
         createdAt
         updatedAt
         _version
@@ -199,8 +206,7 @@ export const updatePost = /* GraphQL */ `
       images
       comments {
         id
-        text
-        user
+        postID
         post {
           id
           title
@@ -217,6 +223,8 @@ export const updatePost = /* GraphQL */ `
           _lastChangedAt
           owner
         }
+        text
+        user
         createdAt
         updatedAt
         _version
@@ -249,8 +257,7 @@ export const deletePost = /* GraphQL */ `
       images
       comments {
         id
-        text
-        user
+        postID
         post {
           id
           title
@@ -267,6 +274,8 @@ export const deletePost = /* GraphQL */ `
           _lastChangedAt
           owner
         }
+        text
+        user
         createdAt
         updatedAt
         _version

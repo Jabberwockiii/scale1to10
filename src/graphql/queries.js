@@ -5,8 +5,7 @@ export const getComment = /* GraphQL */ `
   query GetComment($id: ID!) {
     getComment(id: $id) {
       id
-      text
-      user
+      postID
       post {
         id
         title
@@ -15,6 +14,7 @@ export const getComment = /* GraphQL */ `
         images
         comments {
           id
+          postID
           text
           user
           createdAt
@@ -34,6 +34,8 @@ export const getComment = /* GraphQL */ `
         _lastChangedAt
         owner
       }
+      text
+      user
       createdAt
       updatedAt
       _version
@@ -52,8 +54,7 @@ export const listComments = /* GraphQL */ `
     listComments(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        text
-        user
+        postID
         post {
           id
           title
@@ -70,6 +71,8 @@ export const listComments = /* GraphQL */ `
           _lastChangedAt
           owner
         }
+        text
+        user
         createdAt
         updatedAt
         _version
@@ -97,8 +100,7 @@ export const syncComments = /* GraphQL */ `
     ) {
       items {
         id
-        text
-        user
+        postID
         post {
           id
           title
@@ -115,6 +117,8 @@ export const syncComments = /* GraphQL */ `
           _lastChangedAt
           owner
         }
+        text
+        user
         createdAt
         updatedAt
         _version
@@ -137,8 +141,7 @@ export const getPost = /* GraphQL */ `
       images
       comments {
         id
-        text
-        user
+        postID
         post {
           id
           title
@@ -155,6 +158,8 @@ export const getPost = /* GraphQL */ `
           _lastChangedAt
           owner
         }
+        text
+        user
         createdAt
         updatedAt
         _version
@@ -189,6 +194,7 @@ export const listPosts = /* GraphQL */ `
         images
         comments {
           id
+          postID
           text
           user
           createdAt
@@ -234,6 +240,7 @@ export const syncPosts = /* GraphQL */ `
         images
         comments {
           id
+          postID
           text
           user
           createdAt

@@ -16,17 +16,6 @@ import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import {Link as RouterLink} from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import * as queries from '../graphql/queries';
-import * as mutations from '../graphql/mutations';
-import * as subscriptions from '../graphql/subscriptions';
-
-import { API, graphqlOperation } from 'aws-amplify';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import rate1 from '../static/rate1.jpg';
-import rate2 from '../static/rate2.jpg';
-import { RoundedCornerTwoTone } from '@mui/icons-material';
 function Copyright() {
   return (
     <Typography variant="body2" color="text.secondary" align="center">
@@ -83,8 +72,8 @@ class PhotoList extends React.Component{
                 variant="h2"
                 align="center"
                 color="text.primary"
-                gutterBottom
-                pt={4}
+                gutterBottom = {true}
+                pt={8}
               >
                 Rate your friends
               </Typography>

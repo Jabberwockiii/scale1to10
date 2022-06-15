@@ -56,17 +56,6 @@ export const schema = {
                     "properties": {}
                 },
                 {
-                    "type": "key",
-                    "properties": {
-                        "name": "byPost",
-                        "fields": [
-                            "postID",
-                            "user",
-                            "text"
-                        ]
-                    }
-                },
-                {
                     "type": "auth",
                     "properties": {
                         "rules": [
@@ -137,20 +126,6 @@ export const schema = {
                     "isRequired": false,
                     "attributes": [],
                     "isArrayNullable": true
-                },
-                "comments": {
-                    "name": "comments",
-                    "isArray": true,
-                    "type": {
-                        "model": "Comment"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "isArrayNullable": true,
-                    "association": {
-                        "connectionType": "HAS_MANY",
-                        "associatedWith": "postID"
-                    }
                 },
                 "rating": {
                     "name": "rating",
@@ -234,5 +209,5 @@ export const schema = {
     },
     "enums": {},
     "nonModels": {},
-    "version": "3d6b9c8b71cc081ad732359ee114bba8"
+    "version": "fec6be8cd17af7cdb114404388b15b22"
 };

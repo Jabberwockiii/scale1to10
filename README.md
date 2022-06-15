@@ -23,6 +23,8 @@ Completed Function:
 Todo:
     Pagination random fetch 
     Comment system
+    unlogined page should have more previlege 
+    
 
 
     

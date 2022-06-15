@@ -136,7 +136,7 @@ export default function NavBar({signOut}) {
           size="large"
           aria-label="show 17 new notifications"
           color="inherit"
-          ls
+          ls = "center"
         >
           <Badge badgeContent={17} color="error">
             <NotificationsIcon />
@@ -161,7 +161,7 @@ export default function NavBar({signOut}) {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="fixed">
         <Toolbar>
           <IconButton
             size="large"
@@ -176,7 +176,7 @@ export default function NavBar({signOut}) {
             variant="h6"
             noWrap
             component="div"
-            sx={{ display: { xs: "none", sm: "block" } }}
+            sx={{ display: { xs: "none", sm: "block"} }}
           >
             RateMyFriends
           </Typography>

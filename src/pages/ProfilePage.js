@@ -20,17 +20,8 @@ import * as queries from '../graphql/queries';
 import * as mutations from '../graphql/mutations';
 import * as subscriptions from '../graphql/subscriptions';
 import { graphqlOperation } from 'aws-amplify';
-import { TextField } from '@mui/material';
-
-import CloseIcon from '@mui/icons-material/Close';
-import Dialog from '@mui/material/Dialog';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import { Auth } from 'aws-amplify';
 import {DialogBox} from '../components/UploadDialog';
 import {Link as RouterLink} from 'react-router-dom';
-import { WindowSharp } from '@mui/icons-material';
 var imageDict = {};
 function Album(){
   const [open, setOpen] = useState(false);
@@ -149,7 +140,6 @@ function Album(){
                     style={{ textDecoration: 'none' }}>
                       <Button size="small">View</Button>
                   </RouterLink>
-                      <Button size="small" onClick = {handleDeletePost(imageDict[image])}>Delete</Button>
                   </CardActions>
                 </Grid>
               ))}

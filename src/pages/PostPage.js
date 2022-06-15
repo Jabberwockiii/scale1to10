@@ -25,9 +25,8 @@ import Divider from "@mui/material/Divider";
 import Avatar from "@mui/material/Avatar";
 
 let counter = 0;
-let postVersion = 0;
 function PostPage() {
-  let { postID } = useParams();
+  const { postID } = useParams();
   const [image, setImage] = React.useState(String);
   const [title, setTitle] = React.useState(String);
   const [content, setContent] = React.useState(String);
@@ -36,56 +35,37 @@ function PostPage() {
   const [submitChance, setSubmitChance] = React.useState(false);
   const [existingRatingPeople, setExistingRatingPeople] = React.useState([]);
   const [dialogBoxOpen, setDialogBoxOpen] = React.useState(false);
-  const [comment, setComment] = React.useState([]);
+
   let submitButton = submitChance ? "Submited" : "Submit";
   let ratingView = remoteRating > 0 ? remoteRating.toFixed(1) : 0;
   let counterView = counter > 0 ? counter : " ? ";
-  Storage.configure({level: "public"});
-  //get image by post id
-  useEffect(() => {
-    fetchImages();
-    fetchTitleAndDescription();
-    queryRating();
-    // fetchComment();
-  }, [])
-  // async function fetchComment() {
-  //   console.log("whats up", postID)
-  //   let post = graphqlOperation(queries.getPost, { id: postID });
-  //   let comments = await API.graphql(post).then(res => {
-  //     return res.data.getPost.comments.items;
-  //   });
-    
-  //   setComment([comments[0]]);
-  //   //print the comment text
-  //   console.log("items");
-  //   console.log(comments[1]);
-  // }
   
   async function fetchImages() {
+    Storage.configure({level: "public"});
     let image = await Storage.get(postID);
     setImage(image);
   }
+
   async function fetchTitleAndDescription() {
-    let post = graphqlOperation(queries.getPost, { id: postID });
-    let title = await API.graphql(post).then(res => {
-      return res.data.getPost.title;
-    });
-    let content = await API.graphql(post).then(res => {
-      return res.data.getPost.content;
-    });
+    //use await to set the title and content
+    console.log("PostID: " + postID);
+    const post = await API.graphql(graphqlOperation(queries.getPost, { id: postID })).catch(err => console.log(err));
+    const title = await API.graphql(post).then(res => {return res.data.getPost.title}).catch(err => console.log(err));
+    const content = await API.graphql(post).then(res => {return res.data.getPost.content}).catch(err => console.log(err));
+    console.log(title);
+    console.log(content);
     let existingPeople = await API.graphql(post).then(res => {
       return res.data.getPost.ratingPeople;
-    });
+    }).catch(err => console.log(err));
+
     setExistingRatingPeople(existingPeople);
     if (existingPeople.includes(Auth.user.username)) {
-      console.log(Auth.user.username);
       setSubmitChance(true);
     }
     else{
+      console.log("error");
       counter = 0;
     }
-    setTitle(title);
-    setContent(content);
   }
   function handleRating(rating, data) {
     setRating(data);
@@ -93,23 +73,25 @@ function PostPage() {
 
   async function handleSubmit() {
     //get ratingCount from graphQL
-    counter = await API.graphql(
+    const counter = await API.graphql(
       graphqlOperation(queries.getPost, { id: postID })
     ).then(res => {
-      return res.data.getPost.ratingCounter;
+      return res.data.getPost.ratingCounter + 1;
+    }).catch(err => {
+      console.log(err);
     });
-    postVersion = await API.graphql(
+
+    const postVersion = await API.graphql(
       graphqlOperation(queries.getPost, { id: postID })
     ).then(res => {
       return res.data.getPost._version;
+    }).catch(err => {
+      console.log(err);
     });
-    counter = counter + 1;
-    console.log("counter: " + counter);
-    console.log("postVersion: " + postVersion);
-    //update ratingCount in graphQL
+
     const submitRating = rating;
-    let finalRating = (submitRating + remoteRating*(counter-1)) / (counter);
-    let updateRating = await API.graphql(
+    const finalRating = (submitRating + remoteRating*(counter-1)) / (counter);
+    await API.graphql(
       graphqlOperation(mutations.updatePost, {
         input: {
           id: postID,
@@ -121,26 +103,36 @@ function PostPage() {
         }
       })
     ).then(res => {
-      console.log("upload status");
       return res.data.updatePost.rating;
     }).catch(err => {
       console.log(err);
     });
-    console.log("After rating"+ updateRating);
     setSubmitChance(true);
     queryRating();
   }
+
   async function queryRating(){
     let post = graphqlOperation(queries.getPost, { id: postID });
     let remote = await API.graphql(post).then(res => {
       return res.data.getPost.rating;
-    }
-    );
+    }).catch(err => {
+      console.log(err);
+    });
+
     setRemoteRating(remote);
   }
+
   function handleOpenCommentDialog() {
     setDialogBoxOpen(true);
   }
+
+  useEffect(() => {
+    fetchImages();
+    fetchTitleAndDescription();
+    queryRating();
+    // fetchComment();
+  })
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={1}
@@ -161,9 +153,9 @@ function PostPage() {
               <Typography sx={{ mb: 1.5 }} color="text.secondary">
                 {title}
               </Typography>
-              <Typography varHiant="body2">{content}</Typography>
+              <Typography variant="body2">{content}</Typography>
               <Box width={300} sx = {{mx:"auto", pt:3}}>
-              <Typography varHiant="body2">Drag the Bar to rate this person</Typography>
+              <Typography variant="body2">Drag the Bar to rate this person</Typography>
               <Slider defaultValue={50}
                aria-label="Default"
                valueLabelDisplay="auto"
@@ -178,9 +170,9 @@ function PostPage() {
                 disabled = {submitChance}>
                 {submitButton}
               </Button>
-              <Typography varHiant="h4" sx = {{pt:2, fontWeight: "bold"}}> Your Points: {rating} </Typography>
-              <Typography varHiant="h4" sx = {{pt:2, fontWeight: "bold"}}>Original Points:{ratingView}</Typography>
-              <Typography varHiant="h4" sx = {{pt:2, fontWeight: "bold"}}>{counterView} People have rated</Typography>
+              <Typography variant="h6" sx = {{pt:2, fontWeight: "bold"}}> Your Points: {rating} </Typography>
+              <Typography variant="h6" sx = {{pt:2, fontWeight: "bold"}}> Original Points: {ratingView}</Typography>
+              <Typography variant="h6" sx = {{pt:2, fontWeight: "bold"}}>{counterView} People have rated</Typography>
 
             </CardContent>
             <CardActions>

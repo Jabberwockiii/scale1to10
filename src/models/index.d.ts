@@ -29,7 +29,6 @@ export declare class Post {
   readonly content: string;
   readonly user: string;
   readonly images?: (string | null)[] | null;
-  readonly comments?: (Comment | null)[] | null;
   readonly rating?: number | null;
   readonly ratingCounter?: number | null;
   readonly ratingPeople?: (string | null)[] | null;

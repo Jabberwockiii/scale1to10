@@ -8,7 +8,7 @@ type Comment @model @auth(rules: [
   ]) 
   { 
   id: ID!
-  postID: ID! @index(name:"byPost", sortKeyFields:["user", "text"])
+  postID: ID! 
   post: Post 
   text: String!
   user: String!
@@ -23,7 +23,7 @@ type Post @model @auth(rules: [
   content: String!
   user: String!
   images: [String]
-  comments: [Comment] @hasMany(indexName:"byPost", fields:["id"])
+  comments: [Comment] 
   rating: Float 
   ratingCounter: Int
   ratingPeople: [String]

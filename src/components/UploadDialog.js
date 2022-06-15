@@ -1,16 +1,12 @@
 // src/App.js
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Storage } from 'aws-amplify'
-import { withAuthenticator} from '@aws-amplify/ui-react'
 import { v4 as uuid } from 'uuid';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { API } from 'aws-amplify';
-import * as queries from '../graphql/queries';
 import * as mutations from '../graphql/mutations';
-import * as subscriptions from '../graphql/subscriptions';
 import { graphqlOperation } from 'aws-amplify';
 import { TextField } from '@mui/material';
 
@@ -20,13 +16,11 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import { Auth } from 'aws-amplify';
-import { Link } from "react-router-dom";
 export function DialogBox({open, setOpen}) {
   const [TitleField, setTitleField] = useState('');
   const [DescriptionField, setDescriptionField] = useState('');
   const [currentImages, setCurrentImages] = useState([]);
   const [imageFile, setImageFile] = useState(null);
-
   function handleClose(e){
     setOpen(false);
   }
@@ -41,12 +35,11 @@ export function DialogBox({open, setOpen}) {
     Storage.configure({level: "public",})
     Storage.put(photo_id, file);
     //API
-    const uploadResult =  await
-    API.graphql(graphqlOperation(mutations.createPost, {input: {id: photo_id, user: Auth.user.username, images: photo_id, content : DescriptionField, title: TitleField}}))
-                        .then(console.log("success"))
-                        .catch(err => console.log(err))
+    const result = await API.graphql(graphqlOperation(mutations.createPost, {input: {id: photo_id, user: Auth.user.username, images: photo_id, content : DescriptionField, title: TitleField}}))
+                        .then(console.log("success", photo_id, DescriptionField))
+                        .catch(err => console.log(err));
     console.log("go through the result");
-    return(uploadResult);
+    return result;
   }
   async function handleCreatePost(e){
     console.log(currentImages);
