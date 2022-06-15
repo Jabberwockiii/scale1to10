@@ -49,19 +49,29 @@ function PostPage() {
   async function fetchTitleAndDescription() {
     //use await to set the title and content
     console.log("PostID: " + postID);
-    const post = await API.graphql(graphqlOperation(queries.getPost, { id: postID })).catch(err => console.log(err));
-    const title = await API.graphql(post).then(res => {return res.data.getPost.title}).catch(err => console.log(err));
-    const content = await API.graphql(post).then(res => {return res.data.getPost.content}).catch(err => console.log(err));
-    console.log(title);
-    console.log(content);
+    //fetch title
+    Storage.configure("public");
+    let post = graphqlOperation(queries.getPost, { id: postID });
+    let title = await API.graphql(post).then(res => {
+      return res.data.getPost.title;
+    });
+    setTitle(title);
+    //fetch content
+    let content = await API.graphql(post).then(res => {
+      return res.data.getPost.content;
+    });
+    setContent(content);
+    console.log("title"+title);
     let existingPeople = await API.graphql(post).then(res => {
       return res.data.getPost.ratingPeople;
     }).catch(err => console.log(err));
-
+    console.log("existingPeople"+existingPeople);
     setExistingRatingPeople(existingPeople);
+    
     if (existingPeople.includes(Auth.user.username)) {
       setSubmitChance(true);
     }
+
     else{
       console.log("error");
       counter = 0;
@@ -131,10 +141,10 @@ function PostPage() {
     fetchTitleAndDescription();
     queryRating();
     // fetchComment();
-  })
+  }, [])
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1, pt:10}}>
       <Grid container spacing={1}
         sx ={{pt:3}}>
         <Grid item xs={0.5} />

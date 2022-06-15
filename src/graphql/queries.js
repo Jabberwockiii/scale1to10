@@ -13,16 +13,8 @@ export const getComment = /* GraphQL */ `
         user
         images
         comments {
-          id
-          postID
-          text
-          user
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-          owner
+          nextToken
+          startedAt
         }
         rating
         ratingCounter
@@ -140,17 +132,11 @@ export const getPost = /* GraphQL */ `
       user
       images
       comments {
-        id
-        postID
-        post {
+        items {
           id
-          title
-          content
+          postID
+          text
           user
-          images
-          rating
-          ratingCounter
-          ratingPeople
           createdAt
           updatedAt
           _version
@@ -158,14 +144,8 @@ export const getPost = /* GraphQL */ `
           _lastChangedAt
           owner
         }
-        text
-        user
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-        owner
+        nextToken
+        startedAt
       }
       rating
       ratingCounter
@@ -193,16 +173,8 @@ export const listPosts = /* GraphQL */ `
         user
         images
         comments {
-          id
-          postID
-          text
-          user
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-          owner
+          nextToken
+          startedAt
         }
         rating
         ratingCounter
@@ -239,16 +211,8 @@ export const syncPosts = /* GraphQL */ `
         user
         images
         comments {
-          id
-          postID
-          text
-          user
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-          owner
+          nextToken
+          startedAt
         }
         rating
         ratingCounter

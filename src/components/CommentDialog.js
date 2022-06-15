@@ -27,13 +27,17 @@ export function DialogBox({open, setOpen}) {
   function handleClose(e){
     setOpen(false);
   }
-
   async function fetchComments() {
     let post = graphqlOperation(queries.getPost, { id: postID });
-    let comments = await API.graphql(post).then(res => {
-      return res.data.getPost.comments.items;
-    }).catch(err => console.log(err));
-    setComments(comments);
+    //getComments
+    const result = await API.graphql(graphqlOperation(queries.getComment, { postID: postID }))
+      .then(result => {
+        console.log(result);
+        setComments(result.data.getComments.items);
+      }
+      ).catch(err => console.log(err));
+    console.log("fetch comments");
+    return result;
   }
   async function handleCreateComment(){
     console.log("create comment");
@@ -42,8 +46,8 @@ export function DialogBox({open, setOpen}) {
         {input: {id: uuid(), user: Auth.user.username, text: inputField, postID: postID}}))
         .then(res => console.log("result",res))
         .catch(err => console.log(err))
+    fetchComments();
   }
-
   return(
     <div>
     <Dialog

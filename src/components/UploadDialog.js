@@ -20,7 +20,6 @@ export function DialogBox({open, setOpen}) {
   const [TitleField, setTitleField] = useState('');
   const [DescriptionField, setDescriptionField] = useState('');
   const [currentImages, setCurrentImages] = useState([]);
-  const [imageFile, setImageFile] = useState(null);
   function handleClose(e){
     setOpen(false);
   }
@@ -35,7 +34,14 @@ export function DialogBox({open, setOpen}) {
     Storage.configure({level: "public",})
     Storage.put(photo_id, file);
     //API
-    const result = await API.graphql(graphqlOperation(mutations.createPost, {input: {id: photo_id, user: Auth.user.username, images: photo_id, content : DescriptionField, title: TitleField}}))
+    const result = await API.graphql(graphqlOperation(mutations.createPost, {input: {
+                  id: photo_id,
+                  user: Auth.user.username,
+                  images: photo_id,
+                  content : DescriptionField,
+                  title: TitleField,
+                  ratingPeople : [Auth.user.username],
+                  }}))
                         .then(console.log("success", photo_id, DescriptionField))
                         .catch(err => console.log(err));
     console.log("go through the result");
