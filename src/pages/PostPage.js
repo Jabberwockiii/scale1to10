@@ -140,7 +140,6 @@ function PostPage() {
     fetchImages();
     fetchTitleAndDescription();
     queryRating();
-    // fetchComment();
   }, [])
 
   return (

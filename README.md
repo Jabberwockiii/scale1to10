@@ -21,10 +21,11 @@ Completed Function:
        3. update the textField and Descriptionfield 
        4. upload a picture, create the post  
 Todo:
-    Pagination random fetch 
-    Comment system
-    unlogined page should have more previlege 
-    
+    Pagination fetch
+    return by the most current 
+     
+
+
 
 
     

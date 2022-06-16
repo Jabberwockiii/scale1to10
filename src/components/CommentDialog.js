@@ -1,7 +1,7 @@
 // src/App.js
 import React, { useState, useEffect, useContext } from 'react';
 import Typography from '@mui/material/Typography';
-import { API } from 'aws-amplify';
+import { API, SortDirection } from 'aws-amplify';
 import * as queries from '../graphql/queries';
 import * as mutations from '../graphql/mutations';
 import { graphqlOperation } from 'aws-amplify';
@@ -21,10 +21,12 @@ const imgLink =
 const PostContext = React.createContext();
 function CommentsCard(){
   const [comments, setComments] = useState([]);
+  //postId is an Object {postID: "postID"}
   const postId = useContext(PostContext);
   const postID = postId.postID;
+
   async function fetchComments(){
-    const post = graphqlOperation(queries.getPost, { id: postID });
+    const post = await graphqlOperation(queries.getPost, { id: postID});
     const comments = await API.graphql(post).then(res => {
       return res.data.getPost.comments.items;
     });
@@ -39,7 +41,7 @@ function CommentsCard(){
           <Grid item>
             <Avatar alt="Remy Sharp" src={imgLink} />
           </Grid>
-          <Grid justifyContent="left" item xs zeroMinWidth>
+          <Grid item xs zeroMinWidth>
             <h4 style={{ margin: 0, textAlign: "left" }}>{comment.user}</h4>
             <p style={{ textAlign: "left" }}>
               {comment.text}
@@ -47,7 +49,6 @@ function CommentsCard(){
             <p style={{ textAlign: "left", color: "gray" }}>
               {(comment.createdAt).slice(0,10)}
             </p>
-            <Divider variant="fullWidth" style={{ margin: "30px 0" }} />
           </Grid>
         </Grid>
         </Paper>
@@ -55,6 +56,7 @@ function CommentsCard(){
     </div>
     );
 }
+
 export function DialogBox({open, setOpen}) {
   //comments should include a user name, a comment, and a timestamp  
   const [postID, setPostID] = useState(useParams());
@@ -64,6 +66,12 @@ export function DialogBox({open, setOpen}) {
   function handleClose(e){
     setOpen(false);
   }
+  function keyPress(e){
+    if(e.keyCode === 13){
+       handleCreateComment();
+       // put the login here
+    }
+ }
   console.log("postID", postID);
   async function handleCreateComment(){
     console.log("create comment");
@@ -73,12 +81,14 @@ export function DialogBox({open, setOpen}) {
         .then(res => console.log("result",res))
         .catch(err => console.log(err));
   }
+
   return(
     <div>
     <Dialog
       fullWidth
       open={open}
       onClose={handleClose}
+      aria-labelledby="max-width-dialog-title"
     >
       <AppBar sx={{ position: 'relative' }}>
         <Toolbar>
@@ -111,9 +121,10 @@ export function DialogBox({open, setOpen}) {
         label="Input Your Comment"
         fullWidth
         onChange = {(e) => {setInputField(e.target.value)}}
+        onKeyDown = {keyPress}
       />
     <Divider variant="fullWidth" style={{ margin: "30px 0" }} />
-      <Paper style={{ padding: "40px 20px" }}>
+      <Paper style={{ padding: "" }}>
         </Paper>
         <PostContext.Provider value = {postID}>
         <CommentsCard/>
