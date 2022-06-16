@@ -42,8 +42,8 @@ export function DialogBox({open, setOpen}) {
                   title: TitleField,
                   ratingPeople : [Auth.user.username],
                   }}))
-                        .then(console.log("success", photo_id, DescriptionField))
-                        .catch(err => console.log(err));
+                  .then(console.log("success", photo_id, DescriptionField))
+                  .catch(err => console.log(err));
     console.log("go through the result");
     return result;
   }
@@ -54,7 +54,7 @@ export function DialogBox({open, setOpen}) {
     console.log(file);
     upload(file);
     setOpen(false);
-    console.log("create post");
+    window.location.reload();
   }
   function setImageURL(e){
     const file = e.target.files[0];
@@ -66,7 +66,8 @@ export function DialogBox({open, setOpen}) {
   return(
                     <div>
                     <Dialog
-                      fullScreen
+                      fullWidth
+                      width = "lg"
                       open={open}
                       onClose={handleClose}
                     >

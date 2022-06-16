@@ -8,10 +8,11 @@ type Comment @model @auth(rules: [
   ]) 
   { 
   id: ID!
-  postID: ID!@index(name: "byPost", sortKeyFields: ["text"])
+  postID: ID!@index(name: "byPost", sortKeyFields: ["text", "createdAt"])
   post: Post 
   text: String!
   user: String!
+  createdAt: String!
 }
 type Post @model @auth(rules: [
   { allow : owner, operations: [create, update, delete] }

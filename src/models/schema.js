@@ -34,10 +34,9 @@ export const schema = {
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": [],
-                    "isReadOnly": true
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
                 },
                 "updatedAt": {
                     "name": "updatedAt",
@@ -61,7 +60,8 @@ export const schema = {
                         "name": "byPost",
                         "fields": [
                             "postID",
-                            "text"
+                            "text",
+                            "createdAt"
                         ]
                     }
                 },
@@ -233,5 +233,5 @@ export const schema = {
     },
     "enums": {},
     "nonModels": {},
-    "version": "3d6b9c8b71cc081ad732359ee114bba8"
+    "version": "0aa7ac1b9e5583b3581f7a2c2e8d155e"
 };

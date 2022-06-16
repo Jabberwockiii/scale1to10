@@ -45,7 +45,6 @@ function Gallery() {
       // Get presigned URL for S3 images to display images in app
     s3images = await Promise.all(s3images.map(async image => {
       const signedImage = await Storage.get(image.key)
-      console.log("here is the siged image", signedImage)
       imageDict[signedImage] = image.key;
       return signedImage;
     }))
