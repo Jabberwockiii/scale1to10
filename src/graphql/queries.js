@@ -123,6 +123,56 @@ export const syncComments = /* GraphQL */ `
     }
   }
 `;
+export const byDate = /* GraphQL */ `
+  query ByDate(
+    $postID: ID!
+    $textCreatedAt: ModelCommentByPostCompositeKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelCommentFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    byDate(
+      postID: $postID
+      textCreatedAt: $textCreatedAt
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        postID
+        post {
+          id
+          title
+          content
+          user
+          images
+          rating
+          ratingCounter
+          ratingPeople
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+        text
+        user
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
 export const getPost = /* GraphQL */ `
   query GetPost($id: ID!) {
     getPost(id: $id) {

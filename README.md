@@ -19,11 +19,14 @@ Completed Function:
        1. click cretae a post button 
        2. pop up the dialog box 
        3. update the textField and Descriptionfield 
-       4. upload a picture, create the post  
+       4. upload a picture, create the post
+1. learned how to use nextToken 
+2.   
 Todo:
     Pagination fetch
-    return by the most current 
-     
+    return by the most current
+    avoid over requesting API 
+
 
 
 

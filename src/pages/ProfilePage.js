@@ -52,7 +52,11 @@ function Album(){
       Storage.configure({level: "protected",})
       console.log("This is the key" + id);
       await Storage.remove(id).then(() => {console.log("Deleted")}).catch(err => {console.log(err)});
-      await API.graphql(graphqlOperation(mutations.deletePost, {input: {id: id}}))
+      Storage.configure({level: "public",})
+      await Storage.remove(id).then(() => {console.log("Deleted")}).catch(err => {console.log(err)});
+      //get latest version
+      const latestVersion = await API.graphql(graphqlOperation(queries.getPost, {id: id})).then(res => { return res.data.getPost._version; }).catch(err => {console.log(err)});
+      await API.graphql(graphqlOperation(mutations.deletePost, {input: {id: id, _version: latestVersion}})).catch(err => {console.log(err)});
       fetchImages();
     }
     async function fetchImages() {
@@ -140,6 +144,7 @@ function Album(){
                     style={{ textDecoration: 'none' }}>
                       <Button size="small">View</Button>
                   </RouterLink>
+                  <Button size="small" onClick={() => handleDeletePost(imageDict[image])}>Delete</Button>
                   </CardActions>
                 </Grid>
               ))}

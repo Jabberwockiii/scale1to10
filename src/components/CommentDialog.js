@@ -15,23 +15,32 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import { Auth } from 'aws-amplify';
 import {useParams} from 'react-router-dom';
-import { Divider, Avatar, Grid, Paper } from "@material-ui/core";
+import { Divider, Avatar, Grid, Paper, Card } from "@material-ui/core";
+
 const imgLink =
   "https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260";
 const PostContext = React.createContext();
 function CommentsCard(){
   const [comments, setComments] = useState([]);
+  const [nextToken, setNextToken] = useState(null);
   //postId is an Object {postID: "postID"}
   const postId = useContext(PostContext);
   const postID = postId.postID;
 
   async function fetchComments(){
-    const post = await graphqlOperation(queries.getPost, { id: postID});
-    const comments = await API.graphql(post).then(res => {
-      return res.data.getPost.comments.items;
+    // const post = await graphqlOperation(queries.getPost, { id: postID, limit:2});
+    // const comments = await API.graphql(post).then(res => {
+    //   return res.data.getPost.comments.items;
+    // });
+    const byDate = await graphqlOperation(queries.byDate, { postID: postID, limit:3});
+    const comments = await API.graphql(byDate).then(res => {
+      setNextToken(res.data.byDate.nextToken);
+      console.log(res.data.byDate.nextToken);
+      return res.data.byDate.items;
     });
     setComments(comments);
   };
+
   fetchComments();
   return(
     <div>
@@ -41,7 +50,7 @@ function CommentsCard(){
           <Grid item>
             <Avatar alt="Remy Sharp" src={imgLink} />
           </Grid>
-          <Grid item xs zeroMinWidth>
+          <Grid item xs zeroMinWidth justifyContent='center'>
             <h4 style={{ margin: 0, textAlign: "left" }}>{comment.user}</h4>
             <p style={{ textAlign: "left" }}>
               {comment.text}
@@ -53,6 +62,7 @@ function CommentsCard(){
         </Grid>
         </Paper>
       ))}
+      <Divider />
     </div>
     );
 }
@@ -77,7 +87,12 @@ export function DialogBox({open, setOpen}) {
     console.log("create comment");
     //create a comment using graph ql 
     await API.graphql(graphqlOperation(mutations.createComment, 
-        {input: {id: uuid(), user: Auth.user.username, text: inputField, postID: postID.postID}}))
+        {input: {
+          id: uuid(),
+          user: Auth.user.username,
+          text: inputField,
+          postID: postID.postID,
+          }, }))
         .then(res => console.log("result",res))
         .catch(err => console.log(err));
   }

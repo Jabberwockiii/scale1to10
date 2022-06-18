@@ -8,7 +8,7 @@ type Comment @model @auth(rules: [
   ]) 
   { 
   id: ID!
-  postID: ID!@index(name: "byPost", sortKeyFields: ["text", "createdAt"])
+  postID: ID!@index(name: "byPost", queryField: "byDate", sortKeyFields: ["text", "createdAt"])
   post: Post 
   text: String!
   user: String!

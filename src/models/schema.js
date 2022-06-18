@@ -58,6 +58,7 @@ export const schema = {
                     "type": "key",
                     "properties": {
                         "name": "byPost",
+                        "queryField": "byDate",
                         "fields": [
                             "postID",
                             "text",
