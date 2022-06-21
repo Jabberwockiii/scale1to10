@@ -72,15 +72,12 @@ export default function App() {
     },
     [items, fetching, nextPageUrl]
   );
-
   const hasMoreItems = !!nextPageUrl;
-
   const loader = (
     <div key="loader" className="loader">
       Loading ...
     </div>
   );
-
   return (
     <InfiniteScroll
       loadMore={fetchItems}

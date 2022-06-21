@@ -102,6 +102,8 @@ export function DialogBox({open, setOpen}) {
                           label="Title"
                           fullWidth
                           onChange = {(e) => {setTitleField(e.target.value)}}
+                          inputProps = {{maxLength: 50}}
+                          multiline
                         />
                         <Typography variant="h6" gutterBottom>
                           Add a description
@@ -113,6 +115,8 @@ export function DialogBox({open, setOpen}) {
                           label="Description"
                           fullWidth
                           onChange = {(e) => {setDescriptionField(e.target.value)}}
+                          inputProps = {{maxLength: 500}}
+                          multiline
                         />
                         <Box sx={{ mt: 3 }}>
                           <Typography variant="h6" gutterBottom>

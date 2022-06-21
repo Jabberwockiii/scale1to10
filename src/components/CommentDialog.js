@@ -32,7 +32,7 @@ function CommentsCard(){
   const postId = useContext(PostContext);
   const postID = postId.postID;
   async function fetchComments(nextToken){
-    const byDate = await graphqlOperation(queries.byDate, { postID: postID, limit:5, nextToken: nextToken });
+    const byDate = await graphqlOperation(queries.byDate, { postID: postID, limit:100, nextToken: nextToken });
     const comments = await API.graphql(byDate).then(res => {
       setNextToken(res.data.byDate.nextToken);
       console.log(res.data.byDate.nextToken);
@@ -91,9 +91,12 @@ function CommentsCard(){
           </Grid>
           <Grid item xs zeroMinWidth >
             <h4 style={{ margin: 0, textAlign: "left" }}>{comment.user}</h4>
-            <p style={{ textAlign: "left" }}>
+            <Typography 
+            align="left"
+            style = {{wordWrap: "break-word"}}
+            >
               {comment.text}
-            </p>
+            </Typography>
             <p style={{ textAlign: "left", color: "gray" }}>
               {(comment.createdAt).slice(0,10)}
             </p>
@@ -101,9 +104,9 @@ function CommentsCard(){
         </Grid>
         </Paper>
       ))}
-      </InfiniteScroll>
+    <Divider variant="fullWidth" style={{ margin: "30px 0" }} />           
+    </InfiniteScroll>
       <Divider />
-
     </div>
     );
 }
@@ -224,6 +227,9 @@ export function DialogBox({open, setOpen}) {
         onChange = {(e) => {setInputField(e.target.value)}}
         value = {inputField}
         onKeyDown = {keyPress}
+        multiline
+        maxRows={4}
+        inputProps={{ maxLength: 200 }}
       />
     <Divider variant="fullWidth" style={{ margin: "30px 0" }} />
     <LoadProgressCircle open = {progessCircle} />
