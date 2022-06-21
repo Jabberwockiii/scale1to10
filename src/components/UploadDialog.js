@@ -52,9 +52,11 @@ export function DialogBox({open, setOpen}) {
     let file = await fetch(currentImages).then(r => r.blob());
     console.log("Here is the blob")
     console.log(file);
-    upload(file);
     setOpen(false);
-    window.location.reload();
+    upload(file).then(res => {
+      window.location.reload();
+    });
+    
   }
   function setImageURL(e){
     const file = e.target.files[0];

@@ -1,6 +1,6 @@
 projects:
   APIForTesting:
-    schemaPath: src/graphql/schema.json
+    schemaPath: amplify/backend/api/APIForTesting/build/schema.graphql
     includes:
       - src/graphql/**/*.js
     excludes:

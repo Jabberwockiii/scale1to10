@@ -145,9 +145,10 @@ function PostPage() {
   return (
     <Box sx={{ flexGrow: 1, pt:10}}>
       <Grid container spacing={1}
-        sx ={{pt:3}}>
-        <Grid item xs={0.5} />
-        <Grid item xs={5.5}>
+        sx ={{pt:3}}
+        key = {1}>
+        <Grid item xs={0.5} key ={2}/>
+        <Grid item xs={5.5} key = {3}>
           <img
             src={image}
             alt={title}
@@ -155,7 +156,7 @@ function PostPage() {
             style={{ borderRadius: "5px", width: "100%" }}
           />
         </Grid>
-        <Grid item xs={5.5}>
+        <Grid item xs={5.5} key = {4}>
           <Card sx={{ width: "100%" }}>
             <CardContent>
               <Typography variant="h5" component="div"></Typography>

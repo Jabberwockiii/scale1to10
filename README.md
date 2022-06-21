@@ -26,6 +26,7 @@ Todo:
     Pagination fetch
     return by the most current
     avoid over requesting API 
+    clear after created
 
 
 

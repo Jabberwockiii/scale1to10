@@ -32,7 +32,7 @@ function CommentsCard(){
     // const comments = await API.graphql(post).then(res => {
     //   return res.data.getPost.comments.items;
     // });
-    const byDate = await graphqlOperation(queries.byDate, { postID: postID, limit:3});
+    const byDate = await graphqlOperation(queries.byDate, { postID: postID});
     const comments = await API.graphql(byDate).then(res => {
       setNextToken(res.data.byDate.nextToken);
       console.log(res.data.byDate.nextToken);
@@ -41,7 +41,10 @@ function CommentsCard(){
     setComments(comments);
   };
 
-  fetchComments();
+  useEffect(() => {
+    fetchComments();
+  }
+  , []);
   return(
     <div>
       {comments.map((comment) => (
@@ -50,7 +53,7 @@ function CommentsCard(){
           <Grid item>
             <Avatar alt="Remy Sharp" src={imgLink} />
           </Grid>
-          <Grid item xs zeroMinWidth justifyContent='center'>
+          <Grid item xs zeroMinWidth >
             <h4 style={{ margin: 0, textAlign: "left" }}>{comment.user}</h4>
             <p style={{ textAlign: "left" }}>
               {comment.text}

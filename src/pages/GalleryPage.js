@@ -79,7 +79,7 @@ class PhotoList extends React.Component{
               <Typography variant="h5" align="center" color="text.secondary" paragraph>
                 Here are some pictures you can rate and comment on.
               </Typography>
-              <RouterLink to="/gallery"
+              <RouterLink to="/rule"
               style = {{textDecoration:"none"}}>
               <Button variant="h5" align="center" color="error" >
                 rating rule 
