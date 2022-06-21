@@ -1,6 +1,25 @@
 import React, { useCallback, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroller';
 import parseLinkHeader from 'parse-link-header';
+// src/App.js
+import Typography from '@mui/material/Typography';
+import { API, SortDirection } from 'aws-amplify';
+import * as queries from '../graphql/queries';
+import * as mutations from '../graphql/mutations';
+import { graphqlOperation } from 'aws-amplify';
+import { TextField } from '@mui/material';
+import {v4 as uuid}from 'uuid';
+import Button from '@mui/material/Button';
+import CloseIcon from '@mui/icons-material/Close';
+import Dialog from '@mui/material/Dialog';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import { Auth } from 'aws-amplify';
+import {useParams} from 'react-router-dom';
+import { Divider, Avatar, Grid, Paper, Card } from "@material-ui/core";
+import Alert from '@mui/material/Alert';
+import CircularProgress from '@mui/material/CircularProgress';
 
 async function fetchIssues(url) {
   const response = await fetch(url, {
@@ -24,8 +43,11 @@ export default function App() {
   const [nextPageUrl, setNextPageUrl] = useState(
     'https://api.github.com/repos/facebook/react/issues'
   );
-  const [fetching, setFetching] = useState(false);
 
+  const [fetching, setFetching] = useState(false);
+  const [comments, setComments] = useState([]);
+  const [nextToken, setNextToken] = useState(null);
+  
   const fetchItems = useCallback(
     async () => {
       if (fetching) {
