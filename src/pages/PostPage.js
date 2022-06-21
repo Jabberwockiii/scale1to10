@@ -45,7 +45,7 @@ function PostPage() {
     let image = await Storage.get(postID);
     setImage(image);
   }
-
+  
   async function fetchTitleAndDescription() {
     //use await to set the title and content
     console.log("PostID: " + postID);

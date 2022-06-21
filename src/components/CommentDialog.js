@@ -16,22 +16,20 @@ import IconButton from '@mui/material/IconButton';
 import { Auth } from 'aws-amplify';
 import {useParams} from 'react-router-dom';
 import { Divider, Avatar, Grid, Paper, Card } from "@material-ui/core";
+import Alert from '@mui/material/Alert';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const imgLink =
   "https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260";
 const PostContext = React.createContext();
+
 function CommentsCard(){
   const [comments, setComments] = useState([]);
   const [nextToken, setNextToken] = useState(null);
   //postId is an Object {postID: "postID"}
   const postId = useContext(PostContext);
   const postID = postId.postID;
-
   async function fetchComments(){
-    // const post = await graphqlOperation(queries.getPost, { id: postID, limit:2});
-    // const comments = await API.graphql(post).then(res => {
-    //   return res.data.getPost.comments.items;
-    // });
     const byDate = await graphqlOperation(queries.byDate, { postID: postID});
     const comments = await API.graphql(byDate).then(res => {
       setNextToken(res.data.byDate.nextToken);
@@ -40,7 +38,6 @@ function CommentsCard(){
     });
     setComments(comments);
   };
-
   useEffect(() => {
     fetchComments();
   }
@@ -69,23 +66,57 @@ function CommentsCard(){
     </div>
     );
 }
+function AlertBox(props) {
+  useEffect(() => {
+    setTimeout(() => {
+      props.setAlertOpen(false);
+    }
+    , 2000)});
+  if (props.open){
+    return(
+      <Alert severity="success">
+        Comment added successfully!
+      </Alert>
+    );
+  }
+  if(props.fail){
+    return(
+      <Alert severity="error">
+        Comment failed to add! Try later
+      </Alert>
+    );
+  }
+  return null;
+}
 
+function LoadProgressCircle(props){
+  if(props.open){
+    return(
+      <CircularProgress size = {30}/>
+    );
+  }
+  return null;
+}
 export function DialogBox({open, setOpen}) {
   //comments should include a user name, a comment, and a timestamp  
   const [postID, setPostID] = useState(useParams());
   const [comments, setComments] = useState([]);
   const [inputField, setInputField] = useState('');
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [failAlertOpen, setFailAlertOpen] = useState(false);
+  const [progessCircle, setProgressCircle] = useState(false);
 
   function handleClose(e){
     setOpen(false);
   }
+
   function keyPress(e){
     if(e.keyCode === 13){
        handleCreateComment();
        // put the login here
     }
  }
-  console.log("postID", postID);
+
   async function handleCreateComment(){
     console.log("create comment");
     //create a comment using graph ql 
@@ -96,8 +127,20 @@ export function DialogBox({open, setOpen}) {
           text: inputField,
           postID: postID.postID,
           }, }))
-        .then(res => console.log("result",res))
-        .catch(err => console.log(err));
+        .then(res => {setTimeout(() => {
+          setAlertOpen(true);
+          setProgressCircle(false);
+          setInputField('');
+          setOpen(true);
+          }
+          , 3000)})
+        .catch(err => {setTimeout(() => {
+          setFailAlertOpen(true);
+          }
+          , 3000)});
+    setProgressCircle(true);
+    setInputField('');
+    
   }
 
   return(
@@ -125,10 +168,9 @@ export function DialogBox({open, setOpen}) {
             Create
           </Button>
         </Toolbar>
-      </AppBar>            
+      </AppBar>    
       <div style={{ padding: 14 }} className="App">
       <h1>Comments</h1>
-      {console.log(comments)}
       <Typography variant="h6" gutterBottom>
         Be nice and Judge people politely
       </Typography>
@@ -139,8 +181,12 @@ export function DialogBox({open, setOpen}) {
         label="Input Your Comment"
         fullWidth
         onChange = {(e) => {setInputField(e.target.value)}}
+        value = {inputField}
         onKeyDown = {keyPress}
       />
+    <Divider variant="fullWidth" style={{ margin: "30px 0" }} />
+    <LoadProgressCircle open = {progessCircle} />
+    <AlertBox open = {alertOpen} fail = {failAlertOpen} setAlertOpen = {setAlertOpen} setFailAlertOpen = {setAlertOpen}/>        
     <Divider variant="fullWidth" style={{ margin: "30px 0" }} />
       <Paper style={{ padding: "" }}>
         </Paper>
