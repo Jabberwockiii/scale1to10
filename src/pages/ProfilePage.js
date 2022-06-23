@@ -172,4 +172,4 @@ function Album(){
   }
   return(<PhotoList/>);
 }
-export default withAuthenticator(Album);
+export default Album;

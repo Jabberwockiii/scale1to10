@@ -56,7 +56,6 @@ export function DialogBox({open, setOpen}) {
     upload(file).then(res => {
       window.location.reload();
     });
-    
   }
   function setImageURL(e){
     const file = e.target.files[0];
@@ -124,7 +123,7 @@ export function DialogBox({open, setOpen}) {
                           </Typography>
                           <input
                             type="file"
-                            accept='image/png'
+                            accept='image/*'
                             onChange={(e) => {setImageURL(e)}}
                           />
                           {/** render the uploaded image with flex size*/}

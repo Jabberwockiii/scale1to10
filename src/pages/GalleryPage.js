@@ -95,6 +95,9 @@ class PhotoList extends React.Component{
               </Stack>
             </Container>
           </Box>
+          <Button variant="contained" color="error">
+            See more
+          </Button>
           <Container sx={{ py: 10 }} maxWidth="lg">
             {/* End hero unit */}
             <Grid container spacing={5}>

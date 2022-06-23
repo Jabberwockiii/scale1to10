@@ -15,26 +15,46 @@ import { useEffect } from "react";
 
 import * as queries from '../graphql/queries';
 import * as mutations from '../graphql/mutations';
-import * as subscriptions from '../graphql/subscriptions';
 import { graphqlOperation } from 'aws-amplify';
 import Slider from '@mui/material/Slider';
 import{ API } from 'aws-amplify';
 import {Auth} from 'aws-amplify';
 import {DialogBox} from '../components/CommentDialog';
-import Divider from "@mui/material/Divider";
-import Avatar from "@mui/material/Avatar";
-
+//static import
+const image1Female = require('../static/female/1female.png');
+const image1Male = require('../static/male/1male.png');
+const image2Female = require('../static/female/2female.png');
+const image2Male = require('../static/male/2male.png');
+const image3Female = require('../static/female/3female.png');
+const image3Male = require('../static/male/3male.png');
+const image4Female = require('../static/female/4female.png');
+const image4Male = require('../static/male/4male.png');
+const image5Female = require('../static/female/5female.png');
+const image5Male = require('../static/male/5male.png');
+const image6Female = require('../static/female/6female.png');
+const image6Male = require('../static/male/6male.png');
+const image7Female = require('../static/female/7female.png');
+const image7Male = require('../static/male/7male.png');
+const image8Female = require('../static/female/8female.png');
+const image8Male = require('../static/male/8male.png');
+const image9Female = require('../static/female/9female.png');
+const image9Male = require('../static/male/9male.png');
+const image10Female = require('../static/female/10female.png');
+const image10Male = require('../static/male/10male.png');
+//end of the static 
 let counter = 0;
 function PostPage() {
   const { postID } = useParams();
   const [image, setImage] = React.useState(String);
   const [title, setTitle] = React.useState(String);
   const [content, setContent] = React.useState(String);
-  const [rating, setRating] = React.useState(10);
+  const [rating, setRating] = React.useState(5);
   const [remoteRating, setRemoteRating] = React.useState(0);
   const [submitChance, setSubmitChance] = React.useState(false);
   const [existingRatingPeople, setExistingRatingPeople] = React.useState([]);
   const [dialogBoxOpen, setDialogBoxOpen] = React.useState(false);
+  const [imageFemale, setImageFemale] = React.useState(image5Female);
+  const [imageMale, setImageMale] = React.useState(image5Male);
 
   let submitButton = submitChance ? "Submited" : "Submit";
   let ratingView = remoteRating > 0 ? remoteRating.toFixed(1) : 0;
@@ -79,6 +99,47 @@ function PostPage() {
   }
   function handleRating(rating, data) {
     setRating(data);
+    if(data>1 && data<=2){
+      setImageFemale(image1Female);
+      setImageMale(image1Male);
+    }
+    if(data>2 && data<=3){
+      setImageFemale(image2Female);
+      setImageMale(image2Male);
+    }
+    if(data>3 && data<=4){
+      setImageFemale(image3Female);
+      setImageMale(image3Male);
+    }
+    if(data>4 && data<=5){
+      setImageFemale(image4Female);
+      setImageMale(image4Male);
+    }
+    if(data>5 && data<=6){
+      setImageFemale(image5Female);
+      setImageMale(image5Male);
+    }
+    if(data>6 && data<=7){
+      setImageFemale(image6Female);
+      setImageMale(image6Male);
+    }
+    if(data>7 && data<=8){
+      setImageFemale(image7Female);
+      setImageMale(image7Male);
+    }
+    if(data>8 && data<=9){
+      setImageFemale(image8Female);
+      setImageMale(image8Male);
+    }
+    if(data>9 && data<10){
+      setImageFemale(image9Female);
+      setImageMale(image9Male);
+    }
+    if(data===10){
+      setImageFemale(image10Female);
+      setImageMale(image10Male);
+    }
+
   }
 
   async function handleSubmit() {
@@ -166,7 +227,7 @@ function PostPage() {
               <Typography variant="body2">{content}</Typography>
               <Box width={300} sx = {{mx:"auto", pt:3}}>
               <Typography variant="body2">Drag the Bar to rate this person</Typography>
-              <Slider defaultValue={50}
+              <Slider defaultValue={5}
                aria-label="Default"
                valueLabelDisplay="auto"
                onChange = {handleRating}
@@ -185,6 +246,8 @@ function PostPage() {
               <Typography variant="h6" sx = {{pt:2, fontWeight: "bold"}}>{counterView} People have rated</Typography>
 
             </CardContent>
+            <img alt='image1' style={{ width: '40%' }} src={String(imageFemale)} /> 
+            <img alt='image1' style={{ width: '50%' }} src={String(imageMale)} />                 
             <CardActions>
               <Button size="small" onClick = {handleOpenCommentDialog}>Comments</Button>
               <DialogBox 
