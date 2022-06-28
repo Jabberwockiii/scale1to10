@@ -42,7 +42,7 @@ const image9Male = require('../static/male/9male.png');
 const image10Female = require('../static/female/10female.png');
 const image10Male = require('../static/male/10male.png');
 //end of the static 
-let counter = '?';
+let counter = 0;
 function PostPage() {
   const { postID } = useParams();
   const [image, setImage] = React.useState(String);
@@ -79,6 +79,7 @@ function PostPage() {
     }).catch(err => console.log(err));
     console.log("existingPeople"+existingPeople);
     setExistingRatingPeople(existingPeople);
+    counter = existingPeople.length;
     if (existingPeople.includes(Auth.user.username)) {
       setSubmitChance(true);
     }
@@ -153,19 +154,9 @@ function PostPage() {
 
   async function handleSubmit() {
     //get ratingCount from graphQL
-    const counter = await API.graphql(
-      graphqlOperation(queries.getPost, { id: postID })
-    ).then(res => {
-      if(res.data.getPost.ratingCount !== null){
-        return res.data.getPost.ratingCount;
-      }
-      else{
-        return -1;
-      }
-    }).catch(err => {
-      console.log(err);
-    });
-
+    const counter =  existingRatingPeople.length;
+    console.log(counter);
+    counterView = counter;
     const postVersion = await API.graphql(
       graphqlOperation(queries.getPost, { id: postID })
     ).then(res => {
@@ -175,6 +166,7 @@ function PostPage() {
     });
     const submitRating = rating;
     const finalRating = (submitRating + remoteRating*(counter-1)) / (counter);
+    console.log(postID)
     await API.graphql(
       graphqlOperation(mutations.updatePost, {
         input: {
@@ -256,7 +248,7 @@ function PostPage() {
               </Button>
               <Typography variant="h6" sx = {{pt:2, fontWeight: "bold"}}> Your Points: {rating} </Typography>
               <Typography variant="h6" sx = {{pt:2, fontWeight: "bold"}}> Original Points: {ratingView}</Typography>
-              <Typography variant="h6" sx = {{pt:2, fontWeight: "bold"}}>{counterView} People have rated</Typography>
+              <Typography variant="h6" sx = {{pt:2, fontWeight: "bold"}}>{counterView > 0 ? counterView : '?'} People have rated</Typography>
 
             </CardContent>
             <img alt='image1' style={{ width: '40%' }} src={String(imageFemale)} /> 

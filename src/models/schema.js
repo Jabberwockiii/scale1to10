@@ -216,7 +216,8 @@ export const schema = {
                             {
                                 "allow": "public",
                                 "operations": [
-                                    "read"
+                                    "read",
+                                    "update"
                                 ]
                             },
                             {

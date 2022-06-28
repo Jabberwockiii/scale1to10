@@ -157,12 +157,12 @@ export const createPost = /* GraphQL */ `
     }
   }
 `;
-export const updatePost = /* GraphQL */ `
-  mutation UpdatePost(
-    $input: UpdatePostInput!
+export const deletePost = /* GraphQL */ `
+  mutation DeletePost(
+    $input: DeletePostInput!
     $condition: ModelPostConditionInput
   ) {
-    updatePost(input: $input, condition: $condition) {
+    deletePost(input: $input, condition: $condition) {
       id
       title
       content
@@ -196,12 +196,12 @@ export const updatePost = /* GraphQL */ `
     }
   }
 `;
-export const deletePost = /* GraphQL */ `
-  mutation DeletePost(
-    $input: DeletePostInput!
+export const updatePost = /* GraphQL */ `
+  mutation UpdatePost(
+    $input: UpdatePostInput!
     $condition: ModelPostConditionInput
   ) {
-    deletePost(input: $input, condition: $condition) {
+    updatePost(input: $input, condition: $condition) {
       id
       title
       content
