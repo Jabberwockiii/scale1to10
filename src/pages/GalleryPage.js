@@ -37,31 +37,49 @@ function Gallery() {
   //images hook
   const [images, setImages] = useState([]);
   const [open, setOpen] = useState(false);
-
+  const [start, setStart] = useState(0);
+  const [end, setEnd] = useState(10);
+  const [page, setPage] = useState(1);
+  const [count, setCount] = useState(10);
   useEffect(() => {
-    fetchImages()
+    fetchImages();
   }, [])
+
+  function handlePageChange(event, value) {
+    setPage(value);
+    console.log("this is the value: " + value);
+    setStart((value - 1) * 10);
+    console.log("this is the start: " + start);
+    setEnd(value * 10);
+    console.log("this is the end: " + end);
+    fetchImages();
+  }
+
   async function fetchImages() {
       // Fetch list of images from S3
     Storage.configure({level: "public",})
     let s3images = await Storage.list('')
+    setCount(Math.ceil(s3images.length/10));
+    console.log("count", count);
+    console.log("start", start);
+    console.log("end", end);
+    console.log("page", page);
     console.log("s3 images: ", s3images);
       // Get presigned URL for S3 images to display images in app
-    s3images = await Promise.all(s3images.map(async image => {
+    s3images = await Promise.all(s3images.filter((image, idx) => idx > start && idx < end).map(async image => {
       const signedImage = await Storage.get(image.key)
-      console.log(image)
       imageDict[signedImage] = image.key;
-      const post = await graphqlOperation(queries.getPost, { id: image.key });
-      const title = await API.graphql(post).then(res => {
-        return res.data.getPost.title;
-      }).catch(err => console.log(err));
+      // const post = await graphqlOperation(queries.getPost, { id: image.key });
+      // const title = await API.graphql(post).then(res => {
+      //   return res.data.getPost.title;
+      // }).catch(err => console.log(err));
 
-      if (title !== null) {
-        titleDict[signedImage] = title;
-      }
-      else{
-        titleDict[signedImage] = 'Judge me if you like me'
-      }
+      // if (title !== null) {
+      //   titleDict[signedImage] = title;
+      // }
+      // else{
+      //   titleDict[signedImage] = 'Judge me if you like me'
+      // }
       return signedImage;
     }))
     setImages(s3images);
@@ -138,7 +156,7 @@ class PhotoList extends React.Component{
         </main>
         {/* Footer */}
         <Box sx = {{display:'flex', justifyContent:'center'}}>
-          <Pagination count={10} color="secondary" />
+          <Pagination page = {page} count = {count} onChange = {handlePageChange} />
         </Box>
         <Box sx={{ bgcolor: 'background.paper', p: 6 }} component="footer">
           <Typography variant="h6" align="center" gutterBottom>

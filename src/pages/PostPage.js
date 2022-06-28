@@ -42,7 +42,7 @@ const image9Male = require('../static/male/9male.png');
 const image10Female = require('../static/female/10female.png');
 const image10Male = require('../static/male/10male.png');
 //end of the static 
-let counter = 0;
+let counter = '?';
 function PostPage() {
   const { postID } = useParams();
   const [image, setImage] = React.useState(String);
@@ -58,45 +58,54 @@ function PostPage() {
 
   let submitButton = submitChance ? "Submited" : "Submit";
   let ratingView = remoteRating > 0 ? remoteRating.toFixed(1) : 0;
-  let counterView = counter > 0 ? counter : " ? ";
+  let counterView = counter;
   
   async function fetchImages() {
     Storage.configure({level: "public"});
-    let image = await Storage.get(postID);
+    const image = await Storage.get(postID);
     setImage(image);
   }
   
   async function fetchTitleAndDescription() {
     //use await to set the title and content
-    console.log("PostID: " + postID);
     //fetch title
     Storage.configure("public");
-    let post = graphqlOperation(queries.getPost, { id: postID });
-    let title = await API.graphql(post).then(res => {
-      return res.data.getPost.title;
-    });
-    setTitle(title);
-    //fetch content
-    let content = await API.graphql(post).then(res => {
-      return res.data.getPost.content;
-    });
-    setContent(content);
-    console.log("title"+title);
-    let existingPeople = await API.graphql(post).then(res => {
-      return res.data.getPost.ratingPeople;
+    const post = await graphqlOperation(queries.getPost, { id: postID });
+    const existingPeople = await API.graphql(post).then(res => {
+      if(res.data.getPost.ratingPeople !== undefined) {
+        return res.data.getPost.ratingPeople;
+      }
+      return [];
     }).catch(err => console.log(err));
     console.log("existingPeople"+existingPeople);
     setExistingRatingPeople(existingPeople);
-    
     if (existingPeople.includes(Auth.user.username)) {
       setSubmitChance(true);
     }
-
     else{
       console.log("error");
       counter = 0;
     }
-  }
+
+    const title = await API.graphql(post).then(res => {
+      if(res.data.getPost.title !== null){
+        return res.data.getPost.title;
+      }
+      else{
+        return "No Title";
+      }
+    });
+    setTitle(title);
+    //fetch content
+    let content = await API.graphql(post).then(res => {
+      if(res.data.getPost.content !== null){
+        return res.data.getPost.content;
+      }
+      else{
+        return "No Content";
+      }
+    });
+    setContent(content);  }
   function handleRating(rating, data) {
     setRating(data);
     if(data>1 && data<=2){
@@ -147,7 +156,12 @@ function PostPage() {
     const counter = await API.graphql(
       graphqlOperation(queries.getPost, { id: postID })
     ).then(res => {
-      return res.data.getPost.ratingCounter + 1;
+      if(res.data.getPost.ratingCount !== null){
+        return res.data.getPost.ratingCount;
+      }
+      else{
+        return -1;
+      }
     }).catch(err => {
       console.log(err);
     });
@@ -159,14 +173,13 @@ function PostPage() {
     }).catch(err => {
       console.log(err);
     });
-
     const submitRating = rating;
     const finalRating = (submitRating + remoteRating*(counter-1)) / (counter);
     await API.graphql(
       graphqlOperation(mutations.updatePost, {
         input: {
           id: postID,
-          ratingCounter: counter,
+          ratingCounter: counter + 1,
           rating: finalRating,
           //updating the latest version of the post
           _version: postVersion,
