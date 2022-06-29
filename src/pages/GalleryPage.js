@@ -23,8 +23,8 @@ function Copyright() {
   return (
     <Typography variant="body2" color="text.secondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
+      <Link color="inherit" href="https://www.zhihu.com/people/xu-zhi-kang-75">
+        徐志康@知乎
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -106,17 +106,18 @@ class PhotoList extends React.Component{
                 align="center"
                 color="text.primary"
                 gutterBottom = {true}
-                pt={8}
+                pt={12}
+                bold = {true}
               >
-                Rate your friends
+                外貌协会：问脸
               </Typography>
               <Typography variant="h5" align="center" color="text.secondary" paragraph>
-                Here are some pictures you can rate and comment on.
+               最专业的颜值测评社区
               </Typography>
               <RouterLink to="/rule"
               style = {{textDecoration:"none"}}>
               <Button variant="h5" align="center" color="error" >
-                rating rule 
+                打分规则
               </Button>
               </RouterLink>
               <Stack
@@ -128,9 +129,6 @@ class PhotoList extends React.Component{
               </Stack>
             </Container>
           </Box>
-          <Button variant="contained" color="error">
-            See more
-          </Button>
           <Container sx={{ py: 10 }} maxWidth="lg">
             {/* End hero unit */}
             <Grid container spacing={5}>
@@ -145,9 +143,9 @@ class PhotoList extends React.Component{
                   <CardActions md={{display:'flex', pb:'1%'}} >
                       <RouterLink to={`/post/${imageDict[image]}`}
                       style={{ textDecoration: 'none' }}>
-                      <Button size="small">Rate</Button>
+                      <Button size="small">打分</Button>
                       </RouterLink>
-                      <Button size="small">Report</Button>
+                      <Button size="small">举报</Button>
                     </CardActions>
                 </Grid>
               ))}
@@ -160,7 +158,7 @@ class PhotoList extends React.Component{
         </Box>
         <Box sx={{ bgcolor: 'background.paper', p: 6 }} component="footer">
           <Typography variant="h6" align="center" gutterBottom>
-            Footer
+            外貌协会
           </Typography>
           <Typography
             variant="subtitle1"
@@ -168,7 +166,7 @@ class PhotoList extends React.Component{
             color="text.secondary"
             component="p"
           >
-            Something here to give the footer a purpose!
+            问脸社区
           </Typography>
           <Copyright />
         </Box>

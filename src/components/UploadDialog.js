@@ -83,43 +83,43 @@ export function DialogBox({open, setOpen}) {
                             <CloseIcon />
                           </IconButton>
                           <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-                            Create Your Post
+                            问问大家你的颜值
                           </Typography>
                           <Button autoFocus color="inherit" onClick={handleCreatePost}>
-                            Create
+                            创建
                           </Button>
                         </Toolbar>
                       </AppBar>
                       <Box sx={{ p: 3 }}>
                         <Typography variant="h6" gutterBottom>
-                          Add a title
+                          添加标题
                         </Typography>
                         <TextField
                           autoFocus
-                          defaultValue="Default Value"
+                          defaultValue="我这样可以打几分？"
                           id="standard-basic"
-                          label="Title"
+                          label="标题"
                           fullWidth
                           onChange = {(e) => {setTitleField(e.target.value)}}
                           inputProps = {{maxLength: 50}}
                           multiline
                         />
                         <Typography variant="h6" gutterBottom>
-                          Add a description
+                          添加你的描述 
                         </Typography>
                         <TextField
                           autoFocus
-                          defaultValue="Default Value"
+                          defaultValue="我这样可以打几分？"
                           id="standard-basic"
-                          label="Description"
+                          label="描述"
                           fullWidth
                           onChange = {(e) => {setDescriptionField(e.target.value)}}
-                          inputProps = {{maxLength: 500}}
+                          inputProps = {{maxLength: 2000}}
                           multiline
                         />
                         <Box sx={{ mt: 3 }}>
                           <Typography variant="h6" gutterBottom>
-                            Add a photo
+                            添加一张你的图片
                           </Typography>
                           <input
                             type="file"

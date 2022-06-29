@@ -35,8 +35,8 @@ function Album(){
       return (
         <Typography variant="body2" color="text.secondary" align="center">
           {'Copyright © '}
-          <Link color="inherit" href="https://mui.com/">
-            Your Website
+          <Link color="inherit" href="https://www.zhihu.com/people/xu-zhi-kang-75">
+            徐志康@知乎
           </Link>{' '}
           {new Date().getFullYear()}
           {'.'}
@@ -82,7 +82,7 @@ function Album(){
           <Box
             sx={{
               bgcolor: 'background.paper',
-              pt: 8,
+              pt: 12,
               pb: 6,
             }}
           >
@@ -94,11 +94,10 @@ function Album(){
                 color="text.primary"
                 gutterBottom
               >
-                Share a Picture to find something new about yourself
+                一大波毒舌评论正在来袭！请做好准备，收起你的玻璃心
               </Typography>
               <Typography variant="h5" align="center" color="text.secondary" paragraph>
-                You are anxious about your appearance but we can help, get some feedback from your friends.
-                And see how attractive you are 
+                不会吧不会吧，不会有人真的不敢测自己的颜值吧
               </Typography>
               <Stack
                 sx={{ pt: 4 }}
@@ -112,7 +111,7 @@ function Album(){
                 component="label"
                 onClick={handleClickOpen}
                 >
-                Upload a Photo to rate
+                点击上传你的图片
                 </Button>
                 <DialogBox 
                 open = {open}
@@ -142,9 +141,9 @@ function Album(){
                   <CardActions>
                   <RouterLink to={`/post/${imageDict[image]}`}
                     style={{ textDecoration: 'none' }}>
-                      <Button size="small">View</Button>
+                      <Button size="small">查看</Button>
                   </RouterLink>
-                  <Button size="small" onClick={() => handleDeletePost(imageDict[image])}>Delete</Button>
+                  <Button size="small" onClick={() => handleDeletePost(imageDict[image])}>删除</Button>
                   </CardActions>
                 </Grid>
               ))}
@@ -154,7 +153,7 @@ function Album(){
         {/* Footer */}
         <Box sx={{ bgcolor: 'background.paper', p: 6 }} component="footer">
           <Typography variant="h6" align="center" gutterBottom>
-            Footer
+            问脸社区
           </Typography>
           <Typography
             variant="subtitle1"
@@ -162,7 +161,7 @@ function Album(){
             color="text.secondary"
             component="p"
           >
-            Something here to give the footer a purpose!
+            看看你是健达奇趣蛋还是可爱的小仙女
           </Typography>
           <Copyright />
         </Box>

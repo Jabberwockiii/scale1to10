@@ -101,8 +101,8 @@ export default function NavBar({signOut}) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <Link to= "/profile" style={{ textDecoration: 'none', color : "#000" }} ><MenuItem onClick = {handleMenuClose}>Profile</MenuItem></Link>
-      <MenuItem onClick= {signOut}>Sign Out</MenuItem>
+      <Link to= "/profile" style={{ textDecoration: 'none', color : "#000" }} ><MenuItem onClick = {handleMenuClose}>我的主页</MenuItem></Link>
+      <MenuItem onClick= {signOut}>退出账号</MenuItem>
     </Menu>
   );
 
@@ -178,9 +178,9 @@ export default function NavBar({signOut}) {
             component="div"
             sx={{ display: { xs: "none", sm: "block"} }}
           >
-            RateMyFriends
+            外貌协会
           </Typography>
-          <Search>
+          {/* <Search>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
@@ -188,7 +188,7 @@ export default function NavBar({signOut}) {
               placeholder="Search…"
               inputProps={{ "aria-label": "search" }}
             />
-          </Search>
+          </Search> */}
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <IconButton
@@ -202,24 +202,7 @@ export default function NavBar({signOut}) {
             <DialogBox 
                 open = {dialogBoxOpen}
                 setOpen = {setDialogBoxOpen}/>
-            <IconButton
-              size="large"
-              aria-label="show 4 new mails"
-              color="inherit"
-            >
-              <Badge badgeContent={4} color="error">
-                <MailIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              size="large"
-              aria-label="show 17 new notifications"
-              color="inherit"
-            >
-              <Badge badgeContent={17} color="error">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
+
             <IconButton
               size="large"
               edge="end"
