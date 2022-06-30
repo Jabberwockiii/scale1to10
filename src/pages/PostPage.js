@@ -49,7 +49,7 @@ function PostPage() {
   const [title, setTitle] = React.useState(String);
   const [content, setContent] = React.useState(String);
   const [rating, setRating] = React.useState(5);
-  const [remoteRating, setRemoteRating] = React.useState(0);
+  const [remoteRating, setRemoteRating] = React.useState(5);
   const [submitChance, setSubmitChance] = React.useState(false);
   const [existingRatingPeople, setExistingRatingPeople] = React.useState([]);
   const [dialogBoxOpen, setDialogBoxOpen] = React.useState(false);
@@ -57,7 +57,7 @@ function PostPage() {
   const [imageMale, setImageMale] = React.useState(image5Male);
 
   let submitButton = submitChance ? "Submited" : "Submit";
-  let ratingView = remoteRating > 0 ? remoteRating.toFixed(1) : 5;
+  let ratingView = remoteRating > 0 ? remoteRating.toFixed(1) : 6;
   let counterView = counter;
   
   async function fetchImages() {
@@ -77,7 +77,6 @@ function PostPage() {
       }
       return [];
     }).catch(err => console.log(err));
-    console.log("existingPeople"+existingPeople);
     setExistingRatingPeople(existingPeople);
     counter = existingPeople.length;
     if (existingPeople.includes(Auth.user.username)) {
@@ -155,7 +154,6 @@ function PostPage() {
   async function handleSubmit() {
     //get ratingCount from graphQL
     const counter =  existingRatingPeople.length;
-    console.log(counter);
     counterView = counter;
     const postVersion = await API.graphql(
       graphqlOperation(queries.getPost, { id: postID })
@@ -166,7 +164,6 @@ function PostPage() {
     });
     const submitRating = rating;
     const finalRating = (submitRating + remoteRating*(counter-1)) / (counter);
-    console.log(postID)
     await API.graphql(
       graphqlOperation(mutations.updatePost, {
         input: {
@@ -195,8 +192,10 @@ function PostPage() {
     }).catch(err => {
       console.log(err);
     });
-
     setRemoteRating(remote);
+    if(!submitChance){
+      handleRating(rating, remote);
+    }
   }
 
   function handleOpenCommentDialog() {

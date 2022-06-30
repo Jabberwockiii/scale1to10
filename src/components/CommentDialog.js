@@ -18,71 +18,29 @@ import {useParams} from 'react-router-dom';
 import { Divider, Avatar, Grid, Paper, Card } from "@material-ui/core";
 import Alert from '@mui/material/Alert';
 import CircularProgress, { circularProgressClasses } from '@mui/material/CircularProgress';
-import InfiniteScroll from 'react-infinite-scroller';
-const imgLink =
-  "https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260";
+const imgLink = require("../static/user.jpg");
+
 const PostContext = React.createContext();
 
 function CommentsCard(){
   const [comments, setComments] = useState([]);
-  const [nextToken, setNextToken] = useState("");
-  const [fetching, setFetching] = useState(false);
-
-  //postId is an Object {postID: "postID"}
   const postId = useContext(PostContext);
   const postID = postId.postID;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   async function fetchComments(nextToken){
-    const byDate = await graphqlOperation(queries.byDate, { postID: postID, limit:100, nextToken: nextToken });
+    const byDate = await graphqlOperation(queries.byDate, { postID: postID, nextToken: nextToken });
     const comments = await API.graphql(byDate).then(res => {
-      setNextToken(res.data.byDate.nextToken);
-      console.log(res.data.byDate.nextToken);
       return res.data.byDate.items;
     });
     setComments(comments);
-    console.log(comments);
-    console.log("This is the ", nextToken);
     return {comments, nextToken};
   };
   useEffect(() => {
-    const {initialComment, nextToken} = fetchComments();
+    fetchComments();
   }
-  , []);
-  const fetchItems = useCallback(
-    async () => {
-      if (fetching) {
-        return;
-      }
-      setFetching(true);
-      try {
-        const {comments, nextToken} = await fetchComments();
-        setComments([...comments]);
-        if (nextToken !== null) {
-          setNextToken(nextToken);
-        } 
-        else {
-          setNextToken(null);
-        }
-      } 
-      finally {
-        setFetching(false);
-      }
-    },
-    [comments, fetching, nextToken]
-  );
-
-  const loader = (
-    <div key="loader" className="loader">
-      Loading ...
-    </div>
-  );
+  , [fetchComments]);
   return(
     <div>
-      <InfiniteScroll
-        pageStart={0}
-        loadMore={fetchItems}
-        hasMore={nextToken !== null}
-        loader = {loader}
-      >
       {comments.map((comment) => (
         <Paper>
         <Grid container wrap="nowrap" spacing={2}>
@@ -105,7 +63,6 @@ function CommentsCard(){
         </Paper>
       ))}
     <Divider variant="fullWidth" style={{ margin: "30px 0" }} />           
-    </InfiniteScroll>
       <Divider />
     </div>
     );
@@ -144,7 +101,6 @@ function LoadProgressCircle(props){
 export function DialogBox({open, setOpen}) {
   //comments should include a user name, a comment, and a timestamp  
   const [postID, setPostID] = useState(useParams());
-  const [comments, setComments] = useState([]);
   const [inputField, setInputField] = useState('');
   const [alertOpen, setAlertOpen] = useState(false);
   const [failAlertOpen, setFailAlertOpen] = useState(false);
@@ -235,13 +191,11 @@ export function DialogBox({open, setOpen}) {
     <LoadProgressCircle open = {progessCircle} />
     <AlertBox open = {alertOpen} fail = {failAlertOpen} setAlertOpen = {setAlertOpen} setFailAlertOpen = {setAlertOpen}/>        
     <Divider variant="fullWidth" style={{ margin: "30px 0" }} />
-      <Paper style={{ padding: "" }}>
-        </Paper>
-        <PostContext.Provider value = {postID}>
-        <CommentsCard/>
-        </PostContext.Provider>
-        </div>
-        </Dialog>
-        </div>
+    <PostContext.Provider value = {postID}>
+    <CommentsCard/>
+    </PostContext.Provider>
+    </div>
+    </Dialog>
+    </div>
         );
     }

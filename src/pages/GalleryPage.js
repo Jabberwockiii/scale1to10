@@ -1,7 +1,6 @@
 // src/App.js
 import React, { useState, useEffect } from 'react';
 import { graphqlOperation, Storage } from 'aws-amplify'
-import { withAuthenticator} from '@aws-amplify/ui-react'
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -36,7 +35,6 @@ var titleDict = {};
 function Gallery() {
   //images hook
   const [images, setImages] = useState([]);
-  const [open, setOpen] = useState(false);
   const [start, setStart] = useState(0);
   const [end, setEnd] = useState(10);
   const [page, setPage] = useState(1);
@@ -47,11 +45,8 @@ function Gallery() {
 
   function handlePageChange(event, value) {
     setPage(value);
-    console.log("this is the value: " + value);
     setStart((value - 1) * 10);
-    console.log("this is the start: " + start);
     setEnd(value * 10);
-    console.log("this is the end: " + end);
     fetchImages();
   }
 
@@ -60,26 +55,21 @@ function Gallery() {
     Storage.configure({level: "public",})
     let s3images = await Storage.list('')
     setCount(Math.ceil(s3images.length/10));
-    console.log("count", count);
-    console.log("start", start);
-    console.log("end", end);
-    console.log("page", page);
-    console.log("s3 images: ", s3images);
       // Get presigned URL for S3 images to display images in app
-    s3images = await Promise.all(s3images.filter((image, idx) => idx > start && idx < end).map(async image => {
+    s3images = await Promise.all(s3images.filter((image, idx) => idx >= start && idx <= end).map(async image => {
       const signedImage = await Storage.get(image.key)
       imageDict[signedImage] = image.key;
-      // const post = await graphqlOperation(queries.getPost, { id: image.key });
-      // const title = await API.graphql(post).then(res => {
-      //   return res.data.getPost.title;
-      // }).catch(err => console.log(err));
+      const post = await graphqlOperation(queries.getPost, { id: image.key });
+      const title = await API.graphql(post).then(res => {
+        return res.data.getPost.title;
+      }).catch(err => console.log(err));
 
-      // if (title !== null) {
-      //   titleDict[signedImage] = title;
-      // }
-      // else{
-      //   titleDict[signedImage] = 'Judge me if you like me'
-      // }
+      if (title !== null) {
+        titleDict[signedImage] = title;
+      }
+      else{
+        titleDict[signedImage] = 'Judge me if you like me'
+      }
       return signedImage;
     }))
     setImages(s3images);
@@ -113,6 +103,9 @@ class PhotoList extends React.Component{
               </Typography>
               <Typography variant="h5" align="center" color="text.secondary" paragraph>
                最专业的颜值测评社区
+               </Typography>
+               <Typography variant="h5" align="center" color="text.secondary" paragraph>
+               健达奇趣蛋VS正宗蝈蝻
               </Typography>
               <RouterLink to="/rule"
               style = {{textDecoration:"none"}}>
