@@ -18,3 +18,5 @@
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
+
+/* All components have a class name starting with `amplify` */
