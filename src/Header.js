@@ -1,13 +1,15 @@
-import { Image, useTheme } from "@aws-amplify/ui-react";
+import { Flex, Image, useTheme } from "@aws-amplify/ui-react";
 
 export function Header() {
   const { tokens } = useTheme();
+
   return (
-    <Image
-      alt="logo"
-      src={require("./static/background1.jpg")}
-      padding={tokens.space.medium}
-    />
-    
+    <Flex justifyContent="center">
+      <Image
+        alt="logo"
+        src="https://docs.amplify.aws/assets/logo-dark.svg"
+        padding={tokens.space.medium}
+      />
+    </Flex>
   );
 }

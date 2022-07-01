@@ -5,14 +5,17 @@ import reportWebVitals from "./reportWebVitals";
 import { render } from "react-dom";
 import ProfilePage from "./pages/ProfilePage";
 import PostPage from "./pages/PostPage";
-
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import GalleryPage from "./pages/GalleryPage";
 import NewPost from "./pages/NewPost";
 import NewPost2 from"./pages/ProfilePage";
 import Rule from "./pages/RulePage";
+import { AmplifyProvider, Authenticator } from "@aws-amplify/ui-react";
+
 const rootElement = document.getElementById("root");
 render(
+  <AmplifyProvider>
+    <Authenticator.Provider>
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<App />}>
@@ -32,7 +35,9 @@ render(
         }
       />
     </Routes>
-  </BrowserRouter>,
+  </BrowserRouter>
+  </Authenticator.Provider>
+  </AmplifyProvider>,
   rootElement
 );
 
