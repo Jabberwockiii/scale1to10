@@ -18,6 +18,14 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Link } from "react-router-dom";
 import {DialogBox} from './UploadDialog';
+import MapsHomeWorkIcon from '@mui/icons-material/MapsHomeWork';
+import GroupIcon from '@mui/icons-material/Group';
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import FlightTakeoffTwoToneIcon from '@mui/icons-material/FlightTakeoffTwoTone';
+import SchoolTwoToneIcon from '@mui/icons-material/SchoolTwoTone';
+import PaidIcon from '@mui/icons-material/Paid';
+import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
+import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
@@ -178,9 +186,9 @@ export default function NavBar({signOut}) {
             component="div"
             sx={{ display: { xs: "none", sm: "block"} }}
           >
-            外貌协会
+            NYLife360
           </Typography>
-          {/* <Search>
+          <Search>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
@@ -188,7 +196,95 @@ export default function NavBar({signOut}) {
               placeholder="Search…"
               inputProps={{ "aria-label": "search" }}
             />
-          </Search> */}
+          </Search>
+          <IconButton
+              size="large"
+              aria-label="add a new post"
+              color="inherit"
+              onClick={() => {handleAddPost()}}
+              >
+              <MapsHomeWorkIcon />
+              <Typography variant="h6" noWrap>
+              &nbsp; 租房
+              </Typography>
+          </IconButton>
+          <IconButton
+              size="large"
+              aria-label="add a new post"
+              color="inherit"
+              onClick={() => {handleAddPost()}}
+              >
+              <MapsHomeWorkIcon />
+              <Typography variant="h6" noWrap>
+              &nbsp; 交友
+              </Typography>
+          </IconButton>
+          <IconButton
+              size="large"
+              aria-label="add a new post"
+              color="inherit"
+              onClick={() => {handleAddPost()}}
+              >
+              <MapsHomeWorkIcon />
+              <Typography variant="h6" noWrap>
+              &nbsp; 搬家
+              </Typography>
+          </IconButton>
+          <IconButton
+              size="large"
+              aria-label="add a new post"
+              color="inherit"
+              onClick={() => {handleAddPost()}}
+              >
+              <MapsHomeWorkIcon />
+              <Typography variant="h6" noWrap>
+              &nbsp; 课程
+              </Typography>
+          </IconButton>
+          <IconButton
+              size="large"
+              aria-label="add a new post"
+              color="inherit"
+              onClick={() => {handleAddPost()}}
+              >
+              <MapsHomeWorkIcon />
+              <Typography variant="h6" noWrap>
+              &nbsp; 创投
+              </Typography>
+          </IconButton>
+          <IconButton
+              size="large"
+              aria-label="add a new post"
+              color="inherit"
+              onClick={() => {handleAddPost()}}
+              >
+              <MapsHomeWorkIcon />
+              <Typography variant="h6" noWrap>
+              &nbsp; 邮寄
+              </Typography>
+          </IconButton>
+          <IconButton
+              size="large"
+              aria-label="add a new post"
+              color="inherit"
+              onClick={() => {handleAddPost()}}
+              >
+              <MapsHomeWorkIcon />
+              <Typography variant="h6" noWrap>
+              &nbsp; 清洁
+              </Typography>
+          </IconButton>
+          <IconButton
+              size="large"
+              aria-label="add a new post"
+              color="inherit"
+              onClick={() => {handleAddPost()}}
+              >
+              <MapsHomeWorkIcon />
+              <Typography variant="h6" noWrap>
+              &nbsp; 二手
+              </Typography>
+          </IconButton>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <IconButton
