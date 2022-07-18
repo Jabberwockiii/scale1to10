@@ -83,7 +83,7 @@ export function DialogBox({open, setOpen}) {
                             <CloseIcon />
                           </IconButton>
                           <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-                            问问大家你的颜值
+                            创建新帖子
                           </Typography>
                           <Button autoFocus color="inherit" onClick={handleCreatePost}>
                             创建
@@ -96,7 +96,7 @@ export function DialogBox({open, setOpen}) {
                         </Typography>
                         <TextField
                           autoFocus
-                          defaultValue="我这样可以打几分？"
+                          defaultValue="发布帖子"
                           id="standard-basic"
                           label="标题"
                           fullWidth
@@ -109,7 +109,7 @@ export function DialogBox({open, setOpen}) {
                         </Typography>
                         <TextField
                           autoFocus
-                          defaultValue="我这样可以打几分？"
+                          defaultValue="发布内容"
                           id="standard-basic"
                           label="描述"
                           fullWidth

@@ -251,8 +251,8 @@ function PostPage() {
               <Typography variant="h6" sx = {{pt:2, fontWeight: "bold"}}> 打分总人数：{counterView > 0 ? counterView : '?'} </Typography>
 
             </CardContent>
-            <img alt='image1' style={{ width: '40%' }} src={String(imageFemale)} /> 
-            <img alt='image1' style={{ width: '50%' }} src={String(imageMale)} />                 
+            {/* <img alt='image1' style={{ width: '40%' }} src={String(imageFemale)} /> 
+            <img alt='image1' style={{ width: '50%' }} src={String(imageMale)} />                  */}
             <CardActions>
               <Button size="small" onClick = {handleOpenCommentDialog}>评论区</Button>
               <DialogBox 

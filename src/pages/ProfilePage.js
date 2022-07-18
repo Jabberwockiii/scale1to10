@@ -153,7 +153,7 @@ function Album(){
         {/* Footer */}
         <Box sx={{ bgcolor: 'background.paper', p: 6 }} component="footer">
           <Typography variant="h6" align="center" gutterBottom>
-            问脸社区
+            NYLife360
           </Typography>
           <Typography
             variant="subtitle1"
@@ -161,7 +161,7 @@ function Album(){
             color="text.secondary"
             component="p"
           >
-            看看你是健达奇趣蛋还是可爱的小仙女
+            北美生活，从此出发
           </Typography>
           <Copyright />
         </Box>

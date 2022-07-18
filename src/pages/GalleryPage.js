@@ -136,7 +136,7 @@ class PhotoList extends React.Component{
                   <CardActions md={{display:'flex', pb:'1%'}} >
                       <RouterLink to={`/post/${imageDict[image]}`}
                       style={{ textDecoration: 'none' }}>
-                      <Button size="small">打分</Button>
+                      <Button size="small">查看</Button>
                       </RouterLink>
                       <Button size="small">举报</Button>
                     </CardActions>
