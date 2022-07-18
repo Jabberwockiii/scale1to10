@@ -26,6 +26,7 @@ import SchoolTwoToneIcon from '@mui/icons-material/SchoolTwoTone';
 import PaidIcon from '@mui/icons-material/Paid';
 import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
+
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
@@ -214,7 +215,7 @@ export default function NavBar({signOut}) {
               color="inherit"
               onClick={() => {handleAddPost()}}
               >
-              <MapsHomeWorkIcon />
+              <GroupIcon />
               <Typography variant="h6" noWrap>
               &nbsp; 交友
               </Typography>
@@ -225,7 +226,7 @@ export default function NavBar({signOut}) {
               color="inherit"
               onClick={() => {handleAddPost()}}
               >
-              <MapsHomeWorkIcon />
+              <LocalShippingIcon />
               <Typography variant="h6" noWrap>
               &nbsp; 搬家
               </Typography>
@@ -236,7 +237,7 @@ export default function NavBar({signOut}) {
               color="inherit"
               onClick={() => {handleAddPost()}}
               >
-              <MapsHomeWorkIcon />
+              <SchoolTwoToneIcon />
               <Typography variant="h6" noWrap>
               &nbsp; 课程
               </Typography>
@@ -247,7 +248,7 @@ export default function NavBar({signOut}) {
               color="inherit"
               onClick={() => {handleAddPost()}}
               >
-              <MapsHomeWorkIcon />
+              <PaidIcon />
               <Typography variant="h6" noWrap>
               &nbsp; 创投
               </Typography>
@@ -258,7 +259,7 @@ export default function NavBar({signOut}) {
               color="inherit"
               onClick={() => {handleAddPost()}}
               >
-              <MapsHomeWorkIcon />
+              <FlightTakeoffTwoToneIcon />
               <Typography variant="h6" noWrap>
               &nbsp; 邮寄
               </Typography>
@@ -269,7 +270,7 @@ export default function NavBar({signOut}) {
               color="inherit"
               onClick={() => {handleAddPost()}}
               >
-              <MapsHomeWorkIcon />
+              <CleaningServicesIcon />
               <Typography variant="h6" noWrap>
               &nbsp; 清洁
               </Typography>
@@ -280,7 +281,7 @@ export default function NavBar({signOut}) {
               color="inherit"
               onClick={() => {handleAddPost()}}
               >
-              <MapsHomeWorkIcon />
+              <LocalOfferIcon />
               <Typography variant="h6" noWrap>
               &nbsp; 二手
               </Typography>

@@ -94,10 +94,10 @@ function Album(){
                 color="text.primary"
                 gutterBottom
               >
-                一大波毒舌评论正在来袭！请做好准备，收起你的玻璃心
+                发布你的第一条帖子
               </Typography>
               <Typography variant="h5" align="center" color="text.secondary" paragraph>
-                不会吧不会吧，不会有人真的不敢测自己的颜值吧
+                北美生活，从此出发
               </Typography>
               <Stack
                 sx={{ pt: 4 }}

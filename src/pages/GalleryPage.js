@@ -18,6 +18,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import * as queries from '../graphql/queries';
 import { API } from 'aws-amplify';
 import Pagination from '@mui/material/Pagination';
+import {Image} from "@aws-amplify/ui-react";
 function Copyright() {
   return (
     <Typography variant="body2" color="text.secondary" align="center">
@@ -99,18 +100,17 @@ class PhotoList extends React.Component{
                 pt={12}
                 bold = {true}
               >
-                外貌协会：问脸
+              <Image src={require('../NYLife360.jpg')} style={{width: '100%'}}/>
               </Typography>
               <Typography variant="h5" align="center" color="text.secondary" paragraph>
-               最专业的颜值测评社区
+               北美精品生活社区
                </Typography>
                <Typography variant="h5" align="center" color="text.secondary" paragraph>
-               健达奇趣蛋VS正宗蝈蝻
               </Typography>
               <RouterLink to="/rule"
               style = {{textDecoration:"none"}}>
               <Button variant="h5" align="center" color="error" >
-                打分规则
+                关于我们
               </Button>
               </RouterLink>
               <Stack
@@ -151,7 +151,7 @@ class PhotoList extends React.Component{
         </Box>
         <Box sx={{ bgcolor: 'background.paper', p: 6 }} component="footer">
           <Typography variant="h6" align="center" gutterBottom>
-            外貌协会
+            NYLife360
           </Typography>
           <Typography
             variant="subtitle1"
@@ -159,7 +159,7 @@ class PhotoList extends React.Component{
             color="text.secondary"
             component="p"
           >
-            问脸社区
+            北美精品生活社区
           </Typography>
           <Copyright />
         </Box>
