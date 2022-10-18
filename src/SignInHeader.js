@@ -5,7 +5,7 @@ export function SignInHeader() {
 
   return (
     <Heading level={3} padding={`${tokens.space.xl} ${tokens.space.xl} 0`}>
-      北美精品生活社区
+      Match Up！
     </Heading>
   );
 }

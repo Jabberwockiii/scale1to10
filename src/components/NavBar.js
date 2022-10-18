@@ -206,7 +206,7 @@ export default function NavBar({signOut}) {
               >
               <MapsHomeWorkIcon />
               <Typography variant="h6" noWrap>
-              &nbsp; 租房
+              &nbsp; Event1
               </Typography>
           </IconButton>
           <IconButton
@@ -217,7 +217,7 @@ export default function NavBar({signOut}) {
               >
               <GroupIcon />
               <Typography variant="h6" noWrap>
-              &nbsp; 交友
+              &nbsp; Event2
               </Typography>
           </IconButton>
           <IconButton
@@ -228,7 +228,7 @@ export default function NavBar({signOut}) {
               >
               <LocalShippingIcon />
               <Typography variant="h6" noWrap>
-              &nbsp; 搬家
+              &nbsp; Event3
               </Typography>
           </IconButton>
           <IconButton
@@ -239,7 +239,7 @@ export default function NavBar({signOut}) {
               >
               <SchoolTwoToneIcon />
               <Typography variant="h6" noWrap>
-              &nbsp; 课程
+              &nbsp; Event4
               </Typography>
           </IconButton>
           <IconButton
@@ -250,7 +250,8 @@ export default function NavBar({signOut}) {
               >
               <PaidIcon />
               <Typography variant="h6" noWrap>
-              &nbsp; 创投
+              &nbsp; Event 5
+
               </Typography>
           </IconButton>
           <IconButton
@@ -261,7 +262,7 @@ export default function NavBar({signOut}) {
               >
               <FlightTakeoffTwoToneIcon />
               <Typography variant="h6" noWrap>
-              &nbsp; 邮寄
+              &nbsp; Event 6
               </Typography>
           </IconButton>
           <IconButton
@@ -272,18 +273,7 @@ export default function NavBar({signOut}) {
               >
               <CleaningServicesIcon />
               <Typography variant="h6" noWrap>
-              &nbsp; 清洁
-              </Typography>
-          </IconButton>
-          <IconButton
-              size="large"
-              aria-label="add a new post"
-              color="inherit"
-              onClick={() => {handleAddPost()}}
-              >
-              <LocalOfferIcon />
-              <Typography variant="h6" noWrap>
-              &nbsp; 二手
+              &nbsp; Event 7 
               </Typography>
           </IconButton>
           <Box sx={{ flexGrow: 1 }} />

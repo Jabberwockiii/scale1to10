@@ -103,14 +103,14 @@ class PhotoList extends React.Component{
               <Image src={require('../NYLife360.jpg')} style={{width: '100%'}}/>
               </Typography>
               <Typography variant="h5" align="center" color="text.secondary" paragraph>
-               北美精品生活社区
+               Match Up!
                </Typography>
                <Typography variant="h5" align="center" color="text.secondary" paragraph>
               </Typography>
               <RouterLink to="/rule"
               style = {{textDecoration:"none"}}>
               <Button variant="h5" align="center" color="error" >
-                关于我们
+                About Us
               </Button>
               </RouterLink>
               <Stack
@@ -136,9 +136,9 @@ class PhotoList extends React.Component{
                   <CardActions md={{display:'flex', pb:'1%'}} >
                       <RouterLink to={`/post/${imageDict[image]}`}
                       style={{ textDecoration: 'none' }}>
-                      <Button size="small">查看</Button>
+                      <Button size="small">View</Button>
                       </RouterLink>
-                      <Button size="small">举报</Button>
+                      <Button size="small">Report</Button>
                     </CardActions>
                 </Grid>
               ))}
@@ -159,7 +159,7 @@ class PhotoList extends React.Component{
             color="text.secondary"
             component="p"
           >
-            北美精品生活社区
+            Match Up!
           </Typography>
           <Copyright />
         </Box>
