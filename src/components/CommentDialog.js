@@ -178,7 +178,7 @@ export function DialogBox({open, setOpen}) {
         autoFocus
         defaultValue="Yes, We judge"
         id="standard-basic"
-        label="Input Your Comment"
+        label="Add your tag"
         fullWidth
         onChange = {(e) => {setInputField(e.target.value)}}
         value = {inputField}

@@ -231,7 +231,7 @@ function PostPage() {
               </Typography>
               <Typography variant="body2">{content}</Typography>
               <Box width={300} sx = {{mx:"auto", pt:3}}>
-              <Typography variant="body2">拖动滑块开始打分</Typography>
+              <Typography variant="body2">Slide to show your interest</Typography>
               <Slider defaultValue={ratingView}
                aria-label="Default"
                valueLabelDisplay="auto"
@@ -246,15 +246,15 @@ function PostPage() {
                 disabled = {submitChance}>
                 {submitButton}
               </Button>
-              <Typography variant="h6" sx = {{pt:2, fontWeight: "bold"}}> 选择分数: {rating} </Typography>
-              <Typography variant="h6" sx = {{pt:2, fontWeight: "bold"}}> 目前得分: {ratingView}</Typography>
-              <Typography variant="h6" sx = {{pt:2, fontWeight: "bold"}}> 打分总人数：{counterView > 0 ? counterView : '?'} </Typography>
+              <Typography variant="h6" sx = {{pt:2, fontWeight: "bold"}}> Rating: {rating} </Typography>
+              <Typography variant="h6" sx = {{pt:2, fontWeight: "bold"}}> Current Rate: {ratingView}</Typography>
+              <Typography variant="h6" sx = {{pt:2, fontWeight: "bold"}}> Total Counts：{counterView > 0 ? counterView : '?'} </Typography>
 
             </CardContent>
             {/* <img alt='image1' style={{ width: '40%' }} src={String(imageFemale)} /> 
             <img alt='image1' style={{ width: '50%' }} src={String(imageMale)} />                  */}
             <CardActions>
-              <Button size="small" onClick = {handleOpenCommentDialog}>评论区</Button>
+              <Button size="small" onClick = {handleOpenCommentDialog}>Join it!</Button>
               <DialogBox 
                 open = {dialogBoxOpen}
                 setOpen = {setDialogBoxOpen}/>

@@ -94,10 +94,10 @@ function Album(){
                 color="text.primary"
                 gutterBottom
               >
-                发布你的第一条帖子
+                Match Up : You are never alone
               </Typography>
               <Typography variant="h5" align="center" color="text.secondary" paragraph>
-                北美生活，从此出发
+                Choose your interest tags: 1. Gym 2. Library 3. Concert 4. Escape Room 5. Dates
               </Typography>
               <Stack
                 sx={{ pt: 4 }}
@@ -111,7 +111,7 @@ function Album(){
                 component="label"
                 onClick={handleClickOpen}
                 >
-                点击上传你的图片
+                Add your 5 tags
                 </Button>
                 <DialogBox 
                 open = {open}
@@ -141,9 +141,9 @@ function Album(){
                   <CardActions>
                   <RouterLink to={`/post/${imageDict[image]}`}
                     style={{ textDecoration: 'none' }}>
-                      <Button size="small">查看</Button>
+                      <Button size="small">View</Button>
                   </RouterLink>
-                  <Button size="small" onClick={() => handleDeletePost(imageDict[image])}>删除</Button>
+                  <Button size="small" onClick={() => handleDeletePost(imageDict[image])}>delete</Button>
                   </CardActions>
                 </Grid>
               ))}
@@ -153,7 +153,7 @@ function Album(){
         {/* Footer */}
         <Box sx={{ bgcolor: 'background.paper', p: 6 }} component="footer">
           <Typography variant="h6" align="center" gutterBottom>
-            NYLife360
+            Match Up!
           </Typography>
           <Typography
             variant="subtitle1"
@@ -161,7 +161,7 @@ function Album(){
             color="text.secondary"
             component="p"
           >
-            北美生活，从此出发
+            You are never alone
           </Typography>
           <Copyright />
         </Box>

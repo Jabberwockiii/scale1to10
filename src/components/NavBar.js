@@ -110,8 +110,8 @@ export default function NavBar({signOut}) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <Link to= "/profile" style={{ textDecoration: 'none', color : "#000" }} ><MenuItem onClick = {handleMenuClose}>我的主页</MenuItem></Link>
-      <MenuItem onClick= {signOut}>退出账号</MenuItem>
+      <Link to= "/profile" style={{ textDecoration: 'none', color : "#000" }} ><MenuItem onClick = {handleMenuClose}>My homepage</MenuItem></Link>
+      <MenuItem onClick= {signOut}>Exit</MenuItem>
     </Menu>
   );
 
@@ -187,7 +187,7 @@ export default function NavBar({signOut}) {
             component="div"
             sx={{ display: { xs: "none", sm: "block"} }}
           >
-            NYLife360
+            MatchUp
           </Typography>
           <Search>
             <SearchIconWrapper>
@@ -206,7 +206,7 @@ export default function NavBar({signOut}) {
               >
               <MapsHomeWorkIcon />
               <Typography variant="h6" noWrap>
-              &nbsp; Event1
+              &nbsp; Party
               </Typography>
           </IconButton>
           <IconButton
@@ -217,7 +217,7 @@ export default function NavBar({signOut}) {
               >
               <GroupIcon />
               <Typography variant="h6" noWrap>
-              &nbsp; Event2
+              &nbsp; Dating
               </Typography>
           </IconButton>
           <IconButton
@@ -228,7 +228,7 @@ export default function NavBar({signOut}) {
               >
               <LocalShippingIcon />
               <Typography variant="h6" noWrap>
-              &nbsp; Event3
+              &nbsp; Camping
               </Typography>
           </IconButton>
           <IconButton
@@ -239,7 +239,7 @@ export default function NavBar({signOut}) {
               >
               <SchoolTwoToneIcon />
               <Typography variant="h6" noWrap>
-              &nbsp; Event4
+              &nbsp; Study
               </Typography>
           </IconButton>
           <IconButton
@@ -250,7 +250,7 @@ export default function NavBar({signOut}) {
               >
               <PaidIcon />
               <Typography variant="h6" noWrap>
-              &nbsp; Event 5
+              &nbsp; Finance
 
               </Typography>
           </IconButton>
@@ -262,7 +262,7 @@ export default function NavBar({signOut}) {
               >
               <FlightTakeoffTwoToneIcon />
               <Typography variant="h6" noWrap>
-              &nbsp; Event 6
+              &nbsp; Travel
               </Typography>
           </IconButton>
           <IconButton
@@ -273,7 +273,7 @@ export default function NavBar({signOut}) {
               >
               <CleaningServicesIcon />
               <Typography variant="h6" noWrap>
-              &nbsp; Event 7 
+              &nbsp; Painting 
               </Typography>
           </IconButton>
           <Box sx={{ flexGrow: 1 }} />

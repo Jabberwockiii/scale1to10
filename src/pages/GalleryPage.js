@@ -107,12 +107,7 @@ class PhotoList extends React.Component{
                </Typography>
                <Typography variant="h5" align="center" color="text.secondary" paragraph>
               </Typography>
-              <RouterLink to="/rule"
-              style = {{textDecoration:"none"}}>
-              <Button variant="h5" align="center" color="error" >
-                About Us
-              </Button>
-              </RouterLink>
+              <Link color="inherit" href="https://www.zhihu.com/people/xu-zhi-kang-75">About Us</Link>
               <Stack
                 sx={{ pt: 4 }}
                 direction="row"
@@ -151,7 +146,7 @@ class PhotoList extends React.Component{
         </Box>
         <Box sx={{ bgcolor: 'background.paper', p: 6 }} component="footer">
           <Typography variant="h6" align="center" gutterBottom>
-            NYLife360
+            Matchup
           </Typography>
           <Typography
             variant="subtitle1"

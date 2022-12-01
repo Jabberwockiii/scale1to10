@@ -83,35 +83,35 @@ export function DialogBox({open, setOpen}) {
                             <CloseIcon />
                           </IconButton>
                           <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-                            创建新帖子
+                            Create New Request
                           </Typography>
                           <Button autoFocus color="inherit" onClick={handleCreatePost}>
-                            创建
+                            Create
                           </Button>
                         </Toolbar>
                       </AppBar>
                       <Box sx={{ p: 3 }}>
                         <Typography variant="h6" gutterBottom>
-                          添加标题
+                          Add a title
                         </Typography>
                         <TextField
                           autoFocus
-                          defaultValue="发布帖子"
+                          defaultValue="Add a request"
                           id="standard-basic"
-                          label="标题"
+                          label="title"
                           fullWidth
                           onChange = {(e) => {setTitleField(e.target.value)}}
                           inputProps = {{maxLength: 50}}
                           multiline
                         />
                         <Typography variant="h6" gutterBottom>
-                          添加你的描述 
+                          Add your opinion 
                         </Typography>
                         <TextField
                           autoFocus
-                          defaultValue="发布内容"
+                          defaultValue="add content"
                           id="standard-basic"
-                          label="描述"
+                          label="Content"
                           fullWidth
                           onChange = {(e) => {setDescriptionField(e.target.value)}}
                           inputProps = {{maxLength: 2000}}
@@ -119,7 +119,7 @@ export function DialogBox({open, setOpen}) {
                         />
                         <Box sx={{ mt: 3 }}>
                           <Typography variant="h6" gutterBottom>
-                            添加一张你的图片
+                            Add your pic
                           </Typography>
                           <input
                             type="file"
